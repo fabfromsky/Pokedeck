@@ -77,6 +77,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        assert mEmailSignInButton != null;
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -300,15 +301,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            Log.i("doInBackground", "mEmail = " + mEmail + "; mPassword = " + mPassword);
+            Log.i("LoginActivity", "doInBackground : mEmail = " + mEmail + "; mPassword = " + mPassword);
 
-            // TODO: attempt authentication against a network service.
+            // TODO: Tenter une authentification aupres du Symfo.
             if (mEmail.equals("alexandre.liscia@gmail.com") && mPassword.equals("abcd1234")) {
                 Log.i("doInBackground", "You are connected Alexandre");
+                return true;
+            } else {
+                return false;
             }
 
-            // TODO: register the new account here.
-            return true;
+            // TODO: Sauvegarder l'authentification, evite de se logger a nouveau.
         }
 
         @Override
@@ -317,6 +320,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
+                // TODO: Redirection vers la page principale de l'application.
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
