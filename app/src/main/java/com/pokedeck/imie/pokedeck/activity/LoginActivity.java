@@ -269,7 +269,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
-        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
+        // Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<>(LoginActivity.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
@@ -311,12 +311,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             if (mEmail.equals("alexandre.liscia@gmail.com") && mPassword.equals("abcd1234")) {
                 Log.i("LoginActivity", "You are connected Alexandre");
 
-                // On sauvegarde l'authentification
+                // We save authentication.
                 SharedPreferences sharedPreferences = getSharedPreferences("com.imie.pokedeck.prefs", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("email", mEmail);
 
-                // commit() instead of apply() because it has to be done before to continue
+                // Do commit() instead of apply() because it has to be done before to continue.
                 editor.commit();
 
                 return true;
@@ -331,7 +331,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
-                // TODO: Redirection vers la page principale de l'application.
+                // Finish current activity shows back the main activity.
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
