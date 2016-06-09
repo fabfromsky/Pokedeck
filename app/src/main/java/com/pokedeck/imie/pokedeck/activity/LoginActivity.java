@@ -1,8 +1,11 @@
-package com.pokedeck.imie.pokedeck;
+package com.pokedeck.imie.pokedeck.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -29,6 +32,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.pokedeck.imie.pokedeck.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -305,13 +310,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             // TODO: Tenter une authentification aupres du Symfo.
             if (mEmail.equals("alexandre.liscia@gmail.com") && mPassword.equals("abcd1234")) {
-                Log.i("doInBackground", "You are connected Alexandre");
+                Log.i("LoginActivity", "You are connected Alexandre");
+
+                // On sauvegarde l'authentification
+                SharedPreferences sharedPreferences = getSharedPreferences("com.imie.pokedeck.prefs", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("email", mEmail);
+
                 return true;
             } else {
                 return false;
             }
-
-            // TODO: Sauvegarder l'authentification, evite de se logger a nouveau.
         }
 
         @Override
@@ -333,6 +342,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
         }
+    }
+
+    private void startMainPageActivity() {
+        Intent intent = new Intent(this, MainPageActivity.class);
+        startActivity(intent);
     }
 }
 
