@@ -1,21 +1,24 @@
 package com.pokedeck.imie.pokedeck.activity;
 
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.pokedeck.imie.pokedeck.R;
+import com.pokedeck.imie.pokedeck.entity.Pokedeck;
+import com.pokedeck.imie.pokedeck.entity.Pokemon;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PokedeckActivity extends ListActivity {
+public class PokedeckActivity extends AppCompatActivity {
+
+    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,26 +28,14 @@ public class PokedeckActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pokedeck);
 
-        List<String> listValues = new ArrayList<String>();
-        listValues.add("Android");
-        listValues.add("iOS");
-        listValues.add("Symbian");
-        listValues.add("Blackberry");
-        listValues.add("Windows Phone");
-
-        // initiate the listadapter
-        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(this,
-                R.layout.listitem_pokedeck, R.id.listText, listValues);
-
-        // assign the list adapter
-        setListAdapter(myAdapter);
+        listView = (ListView) findViewById(R.id.pokedeck_list);
     }
 
     @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
+    protected void onResume() {
+        super.onResume();
 
-        Log.i("PokedeckActivity", "Vous avez cliqué sur l'élément id = " + position);
+        ArrayList<Pokemon> pokemons = Pokedeck.getPokemons(this);
     }
 
     private void loginCheck() {

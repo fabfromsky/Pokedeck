@@ -41,7 +41,7 @@ public class PokemonType {
         this.type = type;
     }
 
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 

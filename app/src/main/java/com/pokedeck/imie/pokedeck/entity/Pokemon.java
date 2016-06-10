@@ -1,10 +1,17 @@
 package com.pokedeck.imie.pokedeck.entity;
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.pokedeck.imie.pokedeck.helper.LocalSQLiteOpenHelper;
+
 import java.util.ArrayList;
 
 public class Pokemon extends PokemonType {
 
-    private Integer id;
+    private long id;
 
     private String nickname;
 
@@ -34,7 +41,24 @@ public class Pokemon extends PokemonType {
         this.attacks = attacks;
     }
 
-    public Integer getId() {
+    public Pokemon(Cursor cursor) {
+        this.id = cursor.getLong(cursor.getColumnIndex("id"));
+        this.nickname = cursor.getString(cursor.getColumnIndex("nickname"));
+        this.pv = cursor.getInt(cursor.getColumnIndex("pv"));
+    }
+
+    public void insert(Context context) {
+        ContentValues values = new ContentValues();
+        values.put("nickname", this.nickname);
+        values.put("pv", this.pv);
+
+        LocalSQLiteOpenHelper helper = new LocalSQLiteOpenHelper(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        this.id = db.insert("pokemon", null, values);
+        db.close();
+    }
+
+    public long getId() {
         return id;
     }
 
