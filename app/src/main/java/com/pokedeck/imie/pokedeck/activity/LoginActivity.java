@@ -31,7 +31,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.pokedeck.imie.pokedeck.R;
+import com.pokedeck.imie.pokedeck.controller.NetworkController;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -290,7 +298,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * the user.
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
+        String data = null;
         private final String mEmail;
         private final String mPassword;
 
@@ -302,12 +310,32 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @SuppressLint("CommitPrefEdits")
         @Override
         protected Boolean doInBackground(Void... params) {
-            Log.i("LoginActivity", "doInBackground : mEmail = " + mEmail + "; mPassword = " + mPassword);
+            Log.i("UserLoginTask", "doInBackground : mEmail = " + mEmail + "; mPassword = " + mPassword);
 
-            // TODO: Tenter une authentification aupres du Symfo.
-            if (mEmail.equals("alexandre.liscia@gmail.com") && mPassword.equals("abcd1234")) {
-                Log.i("LoginActivity", "You are connected Alexandre");
+            // Tente une authentification aupres du Symfo.
+            fetchData(new DataCallback() {
+                @Override
+                public void onSuccess(JSONObject result) {
+                    try {
+                        data = result.getString("response");
+                        Log.i("UserLoginTask", "fetchData - onSuccess : data = " + data);
+                    } catch (JSONException e) {
+                        Log.e("UserLoginTask", "fetchData - onSuccess : Error " + e.getMessage());
+                    }
+                }
+            });
 
+            while (data == null) {
+                synchronized (this) {
+                    try {
+                        this.wait(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            if (data.equals("Successfully logged in")) {
                 // We save authentication.
                 SharedPreferences sharedPreferences = getSharedPreferences("com.imie.pokedeck.prefs", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -341,6 +369,57 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
         }
+
+        public void fetchData(final DataCallback callback) {
+            String url = "http://pokedeck-deploy.mathieupascobreillot.xyz/api/security/login";
+            JSONObject jsonRequest = null;
+
+            try {
+                String jsonString = "{\"security_login\": {\"username\": \"" +
+                        mEmail + "\",\"plainPassword\": \"" +
+                        mPassword + "\"}}";
+
+                jsonRequest = new JSONObject(jsonString);
+
+                Log.i("UserLoginTask", "jsonString = " + jsonString);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                    (Request.Method.POST, url, jsonRequest, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            Log.i("UserLoginTask", "jsonObjectRequest - response = " + response.toString());
+
+                            callback.onSuccess(response);
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("UserLoginTask", "jsonObjectRequest - Error: " + error.getMessage());
+
+                            if (error.getMessage().equals("org.json.JSONException: Value Successfully log in of type java.lang.String cannot be converted to JSONObject")) {
+                                String jsonString = "{\"response\": \"Successfully logged in\"}";
+
+                                JSONObject jsonResponse = null;
+                                try {
+                                    jsonResponse = new JSONObject(jsonString);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                callback.onSuccess(jsonResponse);
+                            }
+                        }
+                    });
+
+            NetworkController.getInstance().addToRequestQueue(jsonObjectRequest);
+        }
+    }
+
+    public interface DataCallback {
+        void onSuccess(JSONObject result);
     }
 }
+
 
