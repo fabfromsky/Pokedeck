@@ -71,6 +71,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -312,7 +313,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected Boolean doInBackground(Void... params) {
             Log.i("UserLoginTask", "doInBackground : mEmail = " + mEmail + "; mPassword = " + mPassword);
 
-            // Tente une authentification aupres du Symfo.
+            // Try to get authentified by the Symfo.
             fetchData(new DataCallback() {
                 @Override
                 public void onSuccess(JSONObject result) {
@@ -325,7 +326,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
             });
 
-            while (data == null) {
+            // As if it were synchronous, wait for the response. Not so proud about that.
+            int i = 0;
+            while (data == null && i < 1000) {
                 synchronized (this) {
                     try {
                         this.wait(10);
@@ -333,18 +336,24 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         e.printStackTrace();
                     }
                 }
+
+                i++;
             }
 
-            if (data.equals("Successfully logged in")) {
-                // We save authentication.
-                SharedPreferences sharedPreferences = getSharedPreferences("com.imie.pokedeck.prefs", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("email", mEmail);
+            if (data != null) {
+                if (data.equals("Successfully logged in")) {
+                    // We save authentication.
+                    SharedPreferences sharedPreferences = getSharedPreferences("com.imie.pokedeck.prefs", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("email", mEmail);
 
-                // Do commit() instead of apply() because it has to be done before to continue.
-                editor.commit();
+                    // Do commit() instead of apply() because it has to be done before to continue.
+                    editor.commit();
 
-                return true;
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
                 return false;
             }
@@ -386,10 +395,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 e.printStackTrace();
             }
 
+            // We send the reques and fetch the response
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                     (Request.Method.POST, url, jsonRequest, new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
+                            // Case when everything goes well
+                            assert response != null;
                             Log.i("UserLoginTask", "jsonObjectRequest - response = " + response.toString());
 
                             callback.onSuccess(response);
@@ -397,22 +409,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
+                            // Case when it fails
                             Log.e("UserLoginTask", "jsonObjectRequest - Error: " + error.getMessage());
-
-                            if (error.getMessage().equals("org.json.JSONException: Value Successfully log in of type java.lang.String cannot be converted to JSONObject")) {
-                                String jsonString = "{\"response\": \"Successfully logged in\"}";
-
-                                JSONObject jsonResponse = null;
-                                try {
-                                    jsonResponse = new JSONObject(jsonString);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                callback.onSuccess(jsonResponse);
-                            }
                         }
                     });
-
             NetworkController.getInstance().addToRequestQueue(jsonObjectRequest);
         }
     }
@@ -421,5 +421,3 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         void onSuccess(JSONObject result);
     }
 }
-
-
