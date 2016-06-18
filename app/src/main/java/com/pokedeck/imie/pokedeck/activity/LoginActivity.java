@@ -31,7 +31,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.pokedeck.imie.pokedeck.R;
+import com.pokedeck.imie.pokedeck.controller.NetworkController;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,9 +71,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-        populateAutoComplete();
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -92,53 +100,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mProgressView = findViewById(R.id.login_progress);
     }
 
-    private void populateAutoComplete() {
-        if (!mayRequestContacts()) {
-            return;
-        }
-
-        getLoaderManager().initLoader(0, null, this);
-    }
-
-    private boolean mayRequestContacts() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return true;
-        }
-        if (checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        }
-        if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
-            Snackbar.make(mEmailView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(android.R.string.ok, new View.OnClickListener() {
-                        @Override
-                        @TargetApi(Build.VERSION_CODES.M)
-                        public void onClick(View v) {
-                            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
-                        }
-                    });
-        } else {
-            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
-        }
-        return false;
-    }
-
-    /**
-     * Callback received when a permissions request has been completed.
-     */
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_READ_CONTACTS) {
-            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                populateAutoComplete();
-            }
-        }
-    }
-
-
     /**
      * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
+     * If there are form errors (invalid mEmail, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
@@ -157,14 +121,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
+        // Check for a valid mPassword, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
         }
 
-        // Check for a valid email address.
+        // Check for a valid mEmail address.
         if (TextUtils.isEmpty(email)) {
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
@@ -189,12 +153,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
         return email.contains("@");
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
         return password.length() > 4;
     }
 
@@ -241,13 +203,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI,
                         ContactsContract.Contacts.Data.CONTENT_DIRECTORY), ProfileQuery.PROJECTION,
 
-                // Select only email addresses.
+                // Select only mEmail addresses.
                 ContactsContract.Contacts.Data.MIMETYPE +
                         " = ?", new String[]{ContactsContract.CommonDataKinds.Email
                 .CONTENT_ITEM_TYPE},
 
-                // Show primary email addresses first. Note that there won't be
-                // a primary email address if the user hasn't specified one.
+                // Show primary mEmail addresses first. Note that there won't be
+                // a primary mEmail address if the user hasn't specified one.
                 ContactsContract.Contacts.Data.IS_PRIMARY + " DESC");
     }
 
@@ -269,7 +231,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
-        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
+        // Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<>(LoginActivity.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
@@ -289,11 +251,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     /**
-     * Represents an asynchronous login/registration task used to authenticate
+     * Represents an asynchronous login task used to authenticate
      * the user.
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
+        String data = null;
         private final String mEmail;
         private final String mPassword;
 
@@ -305,21 +267,49 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @SuppressLint("CommitPrefEdits")
         @Override
         protected Boolean doInBackground(Void... params) {
-            Log.i("LoginActivity", "doInBackground : mEmail = " + mEmail + "; mPassword = " + mPassword);
+            Log.i("UserLoginTask", "doInBackground : mEmail = " + mEmail + "; mPassword = " + mPassword);
 
-            // TODO: Tenter une authentification aupres du Symfo.
-            if (mEmail.equals("alexandre.liscia@gmail.com") && mPassword.equals("abcd1234")) {
-                Log.i("LoginActivity", "You are connected Alexandre");
+            // Try to get authentified by the Symfo.
+            fetchData(new DataCallback() {
+                @Override
+                public void onSuccess(JSONObject result) {
+                    try {
+                        data = result.getString("response");
+                        Log.i("UserLoginTask", "fetchData - onSuccess : data = " + data);
+                    } catch (JSONException e) {
+                        Log.e("UserLoginTask", "fetchData - onSuccess : Error " + e.getMessage());
+                    }
+                }
+            });
 
-                // On sauvegarde l'authentification
-                SharedPreferences sharedPreferences = getSharedPreferences("com.imie.pokedeck.prefs", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("email", mEmail);
+            // As if it were synchronous, wait for the response. Not so proud about that.
+            int i = 0;
+            while (data == null && i < 1000) {
+                synchronized (this) {
+                    try {
+                        this.wait(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
 
-                // commit() instead of apply() because it has to be done before to continue
-                editor.commit();
+                i++;
+            }
 
-                return true;
+            if (data != null) {
+                if (data.equals("Successfully logged in")) {
+                    // We save authentication.
+                    SharedPreferences sharedPreferences = getSharedPreferences("com.imie.pokedeck.prefs", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("mEmail", mEmail);
+
+                    // Do commit() instead of apply() because it has to be done before to continue.
+                    editor.commit();
+
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
                 return false;
             }
@@ -331,7 +321,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
-                // TODO: Redirection vers la page principale de l'application.
+                // Finish current activity shows back the main activity.
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
@@ -344,6 +334,46 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
         }
+
+        public void fetchData(final DataCallback callback) {
+            String url = getResources().getString(R.string.baseURL) + "/api/security/login";
+            JSONObject jsonRequest = null;
+
+            try {
+                String jsonString = "{\"security_login\": {\"username\": \"" +
+                        mEmail + "\",\"plainPassword\": \"" +
+                        mPassword + "\"}}";
+
+                jsonRequest = new JSONObject(jsonString);
+
+                Log.i("UserLoginTask", "jsonString = " + jsonString);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            // We send the reques and fetch the response
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                    (Request.Method.POST, url, jsonRequest, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            // Case when everything goes well
+                            assert response != null;
+                            Log.i("UserLoginTask", "jsonObjectRequest - response = " + response.toString());
+
+                            callback.onSuccess(response);
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            // Case when it fails
+                            Log.e("UserLoginTask", "jsonObjectRequest - Error: " + error.getMessage());
+                        }
+                    });
+            NetworkController.getInstance().addToRequestQueue(jsonObjectRequest);
+        }
+    }
+
+    public interface DataCallback {
+        void onSuccess(JSONObject result);
     }
 }
-
