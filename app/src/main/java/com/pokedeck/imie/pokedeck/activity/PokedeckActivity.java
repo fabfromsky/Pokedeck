@@ -40,7 +40,7 @@ public class PokedeckActivity extends AppCompatActivity {
 
     private void loginCheck() {
         SharedPreferences sharedPreferences = getSharedPreferences("com.imie.pokedeck.prefs", Context.MODE_PRIVATE);
-        if (!sharedPreferences.contains("email")) {
+        if (!sharedPreferences.contains("mEmail")) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         } else {
