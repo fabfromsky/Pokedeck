@@ -84,6 +84,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Check if password and confirmed are the same.
         if (!mPasswordView.getText().equals(mConfirmView.getText())) {
+            Log.i("RegisterActivity", "attemptRegister : mPasswordView {" + mPasswordView.getText() + "} and mConfirmView {" + mConfirmView.getText() + "} are different.");
             mConfirmView.setError(getString(R.string.error_incorrect_password));
             focusView = mConfirmView;
             cancel = true;
@@ -204,6 +205,9 @@ public class RegisterActivity extends AppCompatActivity {
 
         public void fetchData(final DataCallback callback) {
             String url = getResources().getString(R.string.baseURL) + "/api/user/new";
+
+            Log.i("UserRegisterTask", "fetchData - url = " + url);
+
             JSONObject jsonRequest = null;
 
             try {
@@ -215,7 +219,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 jsonRequest = new JSONObject(jsonString);
 
-                Log.i("UserLoginTask", "jsonString = " + jsonString);
+                Log.i("UserRegisterTask", "jsonString = " + jsonString);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
