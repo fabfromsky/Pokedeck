@@ -24,7 +24,7 @@ import org.json.JSONObject;
 
 public class RegisterActivity extends AppCompatActivity {
     Button cancel, proceed;
-    TextView mEmail, mPassword, mConfirm;
+    TextView mEmailView, mPasswordView, mConfirmView;
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -39,9 +39,9 @@ public class RegisterActivity extends AppCompatActivity {
         // Gets view elements
         cancel = (Button) findViewById(R.id.buttonRegisterCancel);
         proceed = (Button) findViewById(R.id.buttonRegisterProceed);
-        mEmail = (TextView) findViewById(R.id.editTextRegisterEmail);
-        mPassword = (TextView) findViewById(R.id.editTextRegisterPassword);
-        mConfirm = (TextView) findViewById(R.id.editTextRegisterConfirm);
+        mEmailView = (TextView) findViewById(R.id.editTextRegisterEmail);
+        mPasswordView = (TextView) findViewById(R.id.editTextRegisterPassword);
+        mConfirmView = (TextView) findViewById(R.id.editTextRegisterConfirm);
 
         // Set button action
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -64,39 +64,39 @@ public class RegisterActivity extends AppCompatActivity {
             return;
 
         // Reset errors.
-        mEmail.setError(null);
-        mPassword.setError(null);
-        mConfirm.setError(null);
+        mEmailView.setError(null);
+        mPasswordView.setError(null);
+        mConfirmView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmail.getText().toString();
-        String password = mPassword.getText().toString();
+        String email = mEmailView.getText().toString();
+        String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
 
         // Check for a valid mPassword, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPassword.setError(getString(R.string.error_invalid_password));
-            focusView = mPassword;
+            mPasswordView.setError(getString(R.string.error_invalid_password));
+            focusView = mPasswordView;
             cancel = true;
         }
 
         // Check if password and confirmed are the same.
-        if (!mPassword.getText().equals(mConfirm.getText())) {
-            mConfirm.setError(getString(R.string.error_incorrect_password));
-            focusView = mConfirm;
+        if (!mPasswordView.getText().equals(mConfirmView.getText())) {
+            mConfirmView.setError(getString(R.string.error_incorrect_password));
+            focusView = mConfirmView;
             cancel = true;
         }
 
         // Check for a valid mEmail address.
         if (TextUtils.isEmpty(email)) {
-            mEmail.setError(getString(R.string.error_field_required));
-            focusView = mEmail;
+            mEmailView.setError(getString(R.string.error_field_required));
+            focusView = mEmailView;
             cancel = true;
         } else if (!isEmailValid(email)) {
-            mEmail.setError(getString(R.string.error_invalid_email));
-            focusView = mEmail;
+            mEmailView.setError(getString(R.string.error_invalid_email));
+            focusView = mEmailView;
             cancel = true;
         }
 
@@ -192,8 +192,8 @@ public class RegisterActivity extends AppCompatActivity {
                 // Finish current activity shows back the main activity.
                 finish();
             } else {
-                mPassword.setError(getString(R.string.error_incorrect_password));
-                mPassword.requestFocus();
+                mPasswordView.setError(getString(R.string.error_incorrect_password));
+                mPasswordView.requestFocus();
             }
         }
 
@@ -207,9 +207,11 @@ public class RegisterActivity extends AppCompatActivity {
             JSONObject jsonRequest = null;
 
             try {
-                String jsonString = "{\"security_login\": {\"username\": \"" +
-                        mEmail + "\",\"plainPassword\": \"" +
-                        mPassword + "\"}}";
+                String jsonString = "{" +
+                        "\"username\": \"\"," +
+                        "\"email\": \"\"," +
+                        "\"plainPassword\": \"\"" +
+                        "}";
 
                 jsonRequest = new JSONObject(jsonString);
 
