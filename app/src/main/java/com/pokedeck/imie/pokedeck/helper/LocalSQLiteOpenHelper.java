@@ -3,6 +3,7 @@ package com.pokedeck.imie.pokedeck.helper;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 /**
  * Created by Alexandre on 10/06/2016.
@@ -23,11 +24,12 @@ public class LocalSQLiteOpenHelper extends SQLiteOpenHelper {
                 ");";
 
         db.beginTransaction();
+
         try {
             db.execSQL(sqlFillTable);
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("LocalSQLiteOpenHelper", e.getMessage());
         } finally {
             db.endTransaction();
         }
