@@ -28,13 +28,17 @@ public class PokedeckActivity extends AppCompatActivity {
         // On verifie si le user est authentifie
         loginCheck();
 
-        for (int i = 0; i < 10; i++) {
-            Pokemon pokemon = new Pokemon();
-            pokemon.setNickname("Pikachu");
-            pokemon.setPv(150);
+        if (Pokedeck.getPokemons(this.getApplicationContext()).size() == 0) {
+            // TODO: Change this for a proper pokedeck creation
+            // Creates a test pokedeck in case it's not yet ready
+            for (int i = 0; i <= 19; i++) {
+                Pokemon pokemon = new Pokemon();
+                pokemon.setNickname("Pikachu");
+                pokemon.setPv(150);
 
-            Pokedeck pokedeck = new Pokedeck();
-            pokedeck.addPokemon(this.getApplicationContext(), pokemon);
+                Pokedeck pokedeck = new Pokedeck();
+                pokedeck.addPokemon(this.getApplicationContext(), pokemon);
+            }
         }
 
         super.onCreate(savedInstanceState);

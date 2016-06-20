@@ -25,9 +25,10 @@ public class PokedeckAdapter extends ArrayAdapter<Pokemon> {
         this.context = context;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = null;
+        View view;
 
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
