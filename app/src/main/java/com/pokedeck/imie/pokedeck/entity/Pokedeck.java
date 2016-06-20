@@ -1,6 +1,7 @@
 package com.pokedeck.imie.pokedeck.entity;
 
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.CharArrayBuffer;
 import android.database.ContentObserver;
@@ -16,263 +17,43 @@ import java.util.ArrayList;
 
 public class Pokedeck {
 
-    private Integer id;
+    private Long id;
 
     private static ArrayList<Pokemon> pokemons;
 
     public Pokedeck() {
     }
 
-    public Pokedeck(Integer id, ArrayList<Pokemon> pokemons) {
+    public Pokedeck(Long id, ArrayList<Pokemon> pokemons) {
         this.id = id;
         Pokedeck.pokemons = pokemons;
     }
 
-
-
     public static ArrayList<Pokemon> getPokemons(Context context) {
         ArrayList<Pokemon> pokemons = new ArrayList<>();
-//        LocalSQLiteOpenHelper helper = new LocalSQLiteOpenHelper(context);
-//        SQLiteDatabase db = helper.getReadableDatabase();
-//        Cursor cursor = db.query(true, "pokemon", new String[]{
-//                        "id",
-//                        "nickname",
-//                        "pv"
-//                },
-//                null,
-//                null,
-//                null,
-//                null,
-//                "nickname",
-//                null
-//        );
+        LocalSQLiteOpenHelper helper = new LocalSQLiteOpenHelper(context);
 
-        Cursor cursor = new Cursor() {
-            @Override
-            public int getCount() {
-                return 0;
-            }
+        SQLiteDatabase db = helper.getReadableDatabase();
 
-            @Override
-            public int getPosition() {
-                return 0;
-            }
-
-            @Override
-            public boolean move(int offset) {
-                return false;
-            }
-
-            @Override
-            public boolean moveToPosition(int position) {
-                return false;
-            }
-
-            @Override
-            public boolean moveToFirst() {
-                return false;
-            }
-
-            @Override
-            public boolean moveToLast() {
-                return false;
-            }
-
-            @Override
-            public boolean moveToNext() {
-                return false;
-            }
-
-            @Override
-            public boolean moveToPrevious() {
-                return false;
-            }
-
-            @Override
-            public boolean isFirst() {
-                return false;
-            }
-
-            @Override
-            public boolean isLast() {
-                return false;
-            }
-
-            @Override
-            public boolean isBeforeFirst() {
-                return false;
-            }
-
-            @Override
-            public boolean isAfterLast() {
-                return false;
-            }
-
-            @Override
-            public int getColumnIndex(String columnName) {
-                return 0;
-            }
-
-            @Override
-            public int getColumnIndexOrThrow(String columnName) throws IllegalArgumentException {
-                return 0;
-            }
-
-            @Override
-            public String getColumnName(int columnIndex) {
-                return null;
-            }
-
-            @Override
-            public String[] getColumnNames() {
-                return new String[0];
-            }
-
-            @Override
-            public int getColumnCount() {
-                return 0;
-            }
-
-            @Override
-            public byte[] getBlob(int columnIndex) {
-                return new byte[0];
-            }
-
-            @Override
-            public String getString(int columnIndex) {
-                return null;
-            }
-
-            @Override
-            public void copyStringToBuffer(int columnIndex, CharArrayBuffer buffer) {
-
-            }
-
-            @Override
-            public short getShort(int columnIndex) {
-                return 0;
-            }
-
-            @Override
-            public int getInt(int columnIndex) {
-                return 0;
-            }
-
-            @Override
-            public long getLong(int columnIndex) {
-                return 0;
-            }
-
-            @Override
-            public float getFloat(int columnIndex) {
-                return 0;
-            }
-
-            @Override
-            public double getDouble(int columnIndex) {
-                return 0;
-            }
-
-            @Override
-            public int getType(int columnIndex) {
-                return 0;
-            }
-
-            @Override
-            public boolean isNull(int columnIndex) {
-                return false;
-            }
-
-            @Override
-            public void deactivate() {
-
-            }
-
-            @Override
-            public boolean requery() {
-                return false;
-            }
-
-            @Override
-            public void close() {
-
-            }
-
-            @Override
-            public boolean isClosed() {
-                return false;
-            }
-
-            @Override
-            public void registerContentObserver(ContentObserver observer) {
-
-            }
-
-            @Override
-            public void unregisterContentObserver(ContentObserver observer) {
-
-            }
-
-            @Override
-            public void registerDataSetObserver(DataSetObserver observer) {
-
-            }
-
-            @Override
-            public void unregisterDataSetObserver(DataSetObserver observer) {
-
-            }
-
-            @Override
-            public void setNotificationUri(ContentResolver cr, Uri uri) {
-
-            }
-
-            @Override
-            public Uri getNotificationUri() {
-                return null;
-            }
-
-            @Override
-            public boolean getWantsAllOnMoveCalls() {
-                return false;
-            }
-
-            @Override
-            public void setExtras(Bundle extras) {
-
-            }
-
-            @Override
-            public Bundle getExtras() {
-                return null;
-            }
-
-            @Override
-            public Bundle respond(Bundle extras) {
-                return null;
-            }
-        };
-
-        if (cursor.getCount() == 0){
-            Pokemon pokemon = new Pokemon();
-            pokemon.setPv(100);
-            pokemon.setNickname("Pikachu");
-
-            //pokemon.insert(context);
-
-            pokemons.add(pokemon);
-            pokemons.add(pokemon);
-            pokemons.add(pokemon);
-        }
-
+        Cursor cursor = db.query(true, "pokemon", new String[]{
+                        "id",
+                        "nickname",
+                        "pv"
+                },
+                null,
+                null,
+                null,
+                null,
+                "nickname",
+                null
+        );
 
         while (cursor.moveToNext()) {
             pokemons.add(new Pokemon(cursor));
         }
 
         cursor.close();
-        /*db.close();*/
+        db.close();
 
         return pokemons;
     }
@@ -281,11 +62,63 @@ public class Pokedeck {
         Pokedeck.pokemons = pokemons;
     }
 
-    public Integer getId() {
+    public Pokemon getPokemon(Context context, Long id) {
+        Pokemon pokemon = null;
+
+        LocalSQLiteOpenHelper helper = new LocalSQLiteOpenHelper(context);
+        SQLiteDatabase db = helper.getReadableDatabase();
+        String where = "id = " + String.valueOf(id);
+
+        Cursor cursor = db.query(true, "pokemon", new String[]{
+                        "id",
+                        "nickname",
+                        "pv"
+                },
+                where,
+                null,
+                null,
+                null,
+                "nickname",
+                null
+        );
+
+        if (cursor.moveToFirst())
+            pokemon = new Pokemon(cursor);
+
+        cursor.close();
+        db.close();
+
+        return pokemon;
+    }
+
+    public void addPokemon(Context context, Pokemon pokemon) {
+        ContentValues values = new ContentValues();
+        values.put("nickname", pokemon.getNickname());
+        values.put("pv", pokemon.getPv());
+
+        LocalSQLiteOpenHelper helper = new LocalSQLiteOpenHelper(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        pokemon.setId(db.insert("pokemon", null, values));
+        db.close();
+    }
+
+    public void removePokemon(Context context) {
+        String where = "id = ?";
+        String[] whereArgs = new String[1];
+        whereArgs[0] = String.valueOf(this.id);
+
+        LocalSQLiteOpenHelper helper = new LocalSQLiteOpenHelper(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        db.delete("pokemon", where, whereArgs);
+        db.close();
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 }

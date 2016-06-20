@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">pokedeck</string>
-    <string name="action_sign_in">Se connecter ou s\'enregistrer</string>
-    <string name="action_sign_in_short">Se connecter</string>
+    <string name="action_sign_in">Se connecter</string>
     <string name="error_field_required">Ce champ est requis</string>
     <string name="error_incorrect_password">Ce mot de passe est incorrect</string>
     <string name="error_invalid_email">Cette adresse mail est invalide</string>
@@ -10,4 +9,8 @@
     <string name="permission_rationale">"Les pernmissions sur les contacts sont requises pour proposer un email[...]"</string>
     <string name="prompt_email">Courriel</string>
     <string name="prompt_password">Mot de passe (optionnel)</string>
+    <string name="action_register">S\'enregistrer</string>
+    <string name="title_activity_main_page">Accueil</string>
+    <string name="cancel">Annuler</string>
+    <string name="proceed">Valider</string>
 </resources>
