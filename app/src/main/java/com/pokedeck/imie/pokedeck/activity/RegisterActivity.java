@@ -82,10 +82,11 @@ public class RegisterActivity extends AppCompatActivity {
             cancel = true;
         }
 
-        // Check if password and confirmed are the same.
-        if (!mPasswordView.getText().equals(mConfirmView.getText())) {
+        // Check if password and confirm are the same.
+        if (mPasswordView.getText() != mConfirmView.getText()) {
             Log.i("RegisterActivity", "attemptRegister : mPasswordView {" + mPasswordView.getText() + "} and mConfirmView {" + mConfirmView.getText() + "} are different.");
-            mConfirmView.setError(getString(R.string.error_incorrect_password));
+
+            mConfirmView.setError("Les deux mots de passe ne sont pas identiques");
             focusView = mConfirmView;
             cancel = true;
         }
