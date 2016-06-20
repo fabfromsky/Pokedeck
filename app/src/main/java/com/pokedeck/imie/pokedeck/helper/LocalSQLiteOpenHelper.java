@@ -21,6 +21,16 @@ public class LocalSQLiteOpenHelper extends SQLiteOpenHelper {
         String sqlFillTable = "CREATE TABLE pokemon (id INTEGER PRIMARY KEY," +
                 "nickname TEXT, pv NUMERIC" +
                 ");";
+
+        db.beginTransaction();
+        try {
+            db.execSQL(sqlFillTable);
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            db.endTransaction();
+        }
     }
 
     @Override

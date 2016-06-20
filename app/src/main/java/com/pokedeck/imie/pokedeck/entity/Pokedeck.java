@@ -8,8 +8,10 @@ import android.database.ContentObserver;
 import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.pokedeck.imie.pokedeck.helper.LocalSQLiteOpenHelper;
 
@@ -35,24 +37,32 @@ public class Pokedeck {
 
         SQLiteDatabase db = helper.getReadableDatabase();
 
-        Cursor cursor = db.query(true, "pokemon", new String[]{
-                        "id",
-                        "nickname",
-                        "pv"
-                },
-                null,
-                null,
-                null,
-                null,
-                "nickname",
-                null
-        );
-
-        while (cursor.moveToNext()) {
-            pokemons.add(new Pokemon(cursor));
+        Cursor cursor = null;
+        try {
+            cursor = db.query(true, "pokemon", new String[]{
+                            "id",
+                            "nickname",
+                            "pv"
+                    },
+                    null,
+                    null,
+                    null,
+                    null,
+                    "nickname",
+                    null
+            );
+        } catch (SQLiteException e) {
+            Log.e("Pokedeck", "Error on query : " + e.getMessage());
         }
 
-        cursor.close();
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                pokemons.add(new Pokemon(cursor));
+            }
+
+            cursor.close();
+        }
+
         db.close();
 
         return pokemons;
