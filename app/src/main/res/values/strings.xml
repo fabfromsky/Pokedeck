@@ -24,4 +24,5 @@
     <!-- Strings related to homePage-->
     <string name="title_activity_main_page">Home</string>
     <string name="confirm_password">Confirm password</string>
+    <string name="name">Name</string>
 </resources>
