@@ -24,7 +24,7 @@ import org.json.JSONObject;
 
 public class RegisterActivity extends AppCompatActivity {
     Button cancel, proceed;
-    TextView mEmailView, mPasswordView, mConfirmView;
+    TextView mEmailView, mPasswordView, mConfirmView, mNameView;
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -39,6 +39,8 @@ public class RegisterActivity extends AppCompatActivity {
         // Gets view elements
         cancel = (Button) findViewById(R.id.buttonRegisterCancel);
         proceed = (Button) findViewById(R.id.buttonRegisterProceed);
+
+        mNameView = (TextView) findViewById(R.id.editTextRegisterName);
         mEmailView = (TextView) findViewById(R.id.editTextRegisterEmail);
         mPasswordView = (TextView) findViewById(R.id.editTextRegisterPassword);
         mConfirmView = (TextView) findViewById(R.id.editTextRegisterConfirm);
@@ -50,7 +52,6 @@ public class RegisterActivity extends AppCompatActivity {
                 finish();
             }
         });
-
         proceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,11 +70,19 @@ public class RegisterActivity extends AppCompatActivity {
         mConfirmView.setError(null);
 
         // Store values at the time of the login attempt.
+        String name = mNameView.getText().toString();
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
+
+        // Check for a non empty name
+        if (TextUtils.isEmpty(name)) {
+            mNameView.setError("Cannot be empty");
+            focusView = mNameView;
+            cancel = true;
+        }
 
         // Check for a valid mPassword, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
@@ -82,10 +91,13 @@ public class RegisterActivity extends AppCompatActivity {
             cancel = true;
         }
 
-        // Check if password and confirmed are the same.
-        if (!mPasswordView.getText().equals(mConfirmView.getText())) {
-            Log.i("RegisterActivity", "attemptRegister : mPasswordView {" + mPasswordView.getText() + "} and mConfirmView {" + mConfirmView.getText() + "} are different.");
-            mConfirmView.setError(getString(R.string.error_incorrect_password));
+        // Check if password and confirm are the same.
+        String passwordEntered = mPasswordView.getText().toString();
+        String confirmEntered = mConfirmView.getText().toString();
+        if (!passwordEntered.equals(confirmEntered)) {
+            Log.i("RegisterActivity", "attemptRegister : passwordEntered {" + passwordEntered + "} and confirmEntered {" + confirmEntered + "} are different.");
+
+            mConfirmView.setError("Les deux mots de passe ne sont pas identiques");
             focusView = mConfirmView;
             cancel = true;
         }
@@ -107,7 +119,7 @@ public class RegisterActivity extends AppCompatActivity {
             focusView.requestFocus();
         } else {
             // perform the user login attempt.
-            mRegisterTask = new UserRegisterTask(email, password);
+            mRegisterTask = new UserRegisterTask(name, email, password);
             mRegisterTask.execute((Void) null);
         }
     }
@@ -126,10 +138,12 @@ public class RegisterActivity extends AppCompatActivity {
      */
     public class UserRegisterTask extends AsyncTask<Void, Void, Boolean> {
         String data = null;
+        private final String mName;
         private final String mEmail;
         private final String mPassword;
 
-        UserRegisterTask(String email, String password) {
+        UserRegisterTask(String name, String email, String password) {
+            mName = name;
             mEmail = email;
             mPassword = password;
         }
@@ -167,10 +181,11 @@ public class RegisterActivity extends AppCompatActivity {
             }
 
             if (data != null) {
-                if (data.equals("Successfully logged in")) {
+                if (data.equals("User successfully created")) {
                     // We save authentication.
                     SharedPreferences sharedPreferences = getSharedPreferences("com.imie.pokedeck.prefs", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("mName", mName);
                     editor.putString("mEmail", mEmail);
 
                     // Do commit() instead of apply() because it has to be done before to continue.
@@ -211,11 +226,7 @@ public class RegisterActivity extends AppCompatActivity {
             JSONObject jsonRequest = null;
 
             try {
-                String jsonString = "{" +
-                        "\"username\": \"\"," +
-                        "\"email\": \"\"," +
-                        "\"plainPassword\": \"\"" +
-                        "}";
+                String jsonString = "{\"username\":\"" + mName + "\",\"email\":\"" + mEmail + "\",\"password\":\"" + mPassword + "\",\"enabled\":\"1\"}";
 
                 jsonRequest = new JSONObject(jsonString);
 

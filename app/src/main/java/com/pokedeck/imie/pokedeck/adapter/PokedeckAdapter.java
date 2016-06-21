@@ -1,5 +1,6 @@
 package com.pokedeck.imie.pokedeck.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,24 +25,28 @@ public class PokedeckAdapter extends ArrayAdapter<Pokemon> {
         this.context = context;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view;
 
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = layoutInflater.inflate(R.layout.listitem_pokedeck, parent);
+            view = layoutInflater.inflate(R.layout.listitem_pokedeck, null);
         } else {
             view = convertView;
         }
 
         Pokemon pokemon = getItem(position);
 
+        // Current pokemon's reference is store in the current view
+        view.setTag(pokemon);
+
         TextView nickname = (TextView) view.findViewById(R.id.listitem_pokedeck_nickname);
         TextView pv = (TextView) view.findViewById(R.id.listitem_pokedeck_pv);
 
         nickname.setText(pokemon.getNickname());
-        pv.setText(pokemon.getPv());
+        pv.setText(pokemon.getPv().toString());
 
         return view;
     }

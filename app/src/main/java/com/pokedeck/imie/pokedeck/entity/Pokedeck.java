@@ -1,15 +1,11 @@
 package com.pokedeck.imie.pokedeck.entity;
 
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.CharArrayBuffer;
-import android.database.ContentObserver;
 import android.database.Cursor;
-import android.database.DataSetObserver;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
-import android.os.Bundle;
+import android.database.sqlite.SQLiteException;
+import android.util.Log;
 
 import com.pokedeck.imie.pokedeck.helper.LocalSQLiteOpenHelper;
 
@@ -35,24 +31,32 @@ public class Pokedeck {
 
         SQLiteDatabase db = helper.getReadableDatabase();
 
-        Cursor cursor = db.query(true, "pokemon", new String[]{
-                        "id",
-                        "nickname",
-                        "pv"
-                },
-                null,
-                null,
-                null,
-                null,
-                "nickname",
-                null
-        );
-
-        while (cursor.moveToNext()) {
-            pokemons.add(new Pokemon(cursor));
+        Cursor cursor = null;
+        try {
+            cursor = db.query(true, "pokemon", new String[]{
+                            "id",
+                            "nickname",
+                            "pv"
+                    },
+                    null,
+                    null,
+                    null,
+                    null,
+                    "nickname",
+                    null
+            );
+        } catch (SQLiteException e) {
+            Log.e("Pokedeck", "Error on query : " + e.getMessage());
         }
 
-        cursor.close();
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                pokemons.add(new Pokemon(cursor));
+            }
+
+            cursor.close();
+        }
+
         db.close();
 
         return pokemons;
@@ -69,23 +73,31 @@ public class Pokedeck {
         SQLiteDatabase db = helper.getReadableDatabase();
         String where = "id = " + String.valueOf(id);
 
-        Cursor cursor = db.query(true, "pokemon", new String[]{
-                        "id",
-                        "nickname",
-                        "pv"
-                },
-                where,
-                null,
-                null,
-                null,
-                "nickname",
-                null
-        );
+        Cursor cursor = null;
+        try {
+            cursor = db.query(true, "pokemon", new String[]{
+                            "id",
+                            "nickname",
+                            "pv"
+                    },
+                    where,
+                    null,
+                    null,
+                    null,
+                    "nickname",
+                    null
+            );
+        } catch (SQLiteException e) {
+            Log.e("Pokedeck", "Error on query : " + e.getMessage());
+        }
 
-        if (cursor.moveToFirst())
-            pokemon = new Pokemon(cursor);
+        if (cursor != null) {
+            if (cursor.moveToFirst())
+                pokemon = new Pokemon(cursor);
 
-        cursor.close();
+            cursor.close();
+        }
+
         db.close();
 
         return pokemon;
