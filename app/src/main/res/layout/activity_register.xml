@@ -3,60 +3,91 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.pokedeck.imie.pokedeck.activity.RegisterActivity">
 
-    <EditText
-        android:id="@+id/editTextRegisterName"
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:hint="@string/name"
-        android:inputType="textPersonName" />
+        android:layout_height="match_parent"
+        android:src="@mipmap/splash"
+        android:scaleType="centerCrop"/>
 
-    <EditText
-        android:id="@+id/editTextRegisterEmail"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editTextRegisterName"
-        android:layout_centerHorizontal="true"
-        android:hint="@string/prompt_email"
-        android:inputType="textEmailAddress" />
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:gravity="center_vertical|center_horizontal">
 
-    <EditText
-        android:id="@+id/editTextRegisterPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editTextRegisterEmail"
-        android:layout_centerHorizontal="true"
-        android:hint="@string/prompt_password"
-        android:inputType="textPassword" />
+        <EditText
+            android:id="@+id/editTextRegisterName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:hint="@string/name"
+            android:background="@color/white_background"
+            android:inputType="textPersonName"
+            android:padding="5dp"
+            android:layout_marginTop="5dp" />
 
-    <EditText
-        android:id="@+id/editTextRegisterConfirm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editTextRegisterPassword"
-        android:layout_centerHorizontal="true"
-        android:hint="@string/confirm_password"
-        android:inputType="textPassword" />
+        <EditText
+            android:id="@+id/editTextRegisterEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editTextRegisterName"
+            android:layout_centerHorizontal="true"
+            android:hint="@string/prompt_email"
+            android:background="@color/white_background"
+            android:inputType="textEmailAddress"
+            android:padding="5dp"
+            android:layout_marginTop="5dp" />
 
-    <Button
-        android:id="@+id/buttonRegisterProceed"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editTextRegisterConfirm"
-        android:text="@string/proceed" />
+        <EditText
+            android:id="@+id/editTextRegisterPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editTextRegisterEmail"
+            android:layout_centerHorizontal="true"
+            android:hint="@string/prompt_password"
+            android:background="@color/white_background"
+            android:inputType="textPassword"
+            android:padding="5dp"
+            android:layout_marginTop="5dp" />
 
-    <Button
-        android:id="@+id/buttonRegisterCancel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/buttonRegisterProceed"
-        android:text="@string/cancel" />
+        <EditText
+            android:id="@+id/editTextRegisterConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editTextRegisterPassword"
+            android:layout_centerHorizontal="true"
+            android:hint="@string/confirm_password"
+            android:background="@color/white_background"
+            android:inputType="textPassword"
+            android:padding="5dp"
+            android:layout_marginTop="5dp" />
 
+        <Button
+            android:id="@+id/buttonRegisterProceed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/proceed"
+            style="@style/ButtonGreen"
+            android:gravity="center"
+            android:layout_below="@+id/editTextRegisterConfirm"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp" />
+
+        <Button
+            android:id="@+id/buttonRegisterCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel"
+            style="@style/ButtonBlue"
+            android:layout_below="@+id/buttonRegisterProceed"
+            android:layout_alignEnd="@+id/buttonRegisterProceed"
+            android:layout_marginTop="5dp" />
+
+    </RelativeLayout>
 
 </RelativeLayout>
