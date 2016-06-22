@@ -1,14 +1,18 @@
 package com.pokedeck.imie.pokedeck.controller;
 
 import android.app.Application;
+import android.media.MediaPlayer;
 import android.text.TextUtils;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.Volley;
+import com.pokedeck.imie.pokedeck.R;
 
 public class ApplicationController extends Application {
+
+    public static MediaPlayer mediaPlayer;
 
     /**
      * Log or request TAG
@@ -89,5 +93,9 @@ public class ApplicationController extends Application {
         if (mRequestQueue != null) {
             mRequestQueue.cancelAll(tag);
         }
+    }
+
+    public static MediaPlayer getMediaPlayer() {
+        return mediaPlayer;
     }
 }

@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.pokedeck.imie.pokedeck.R;
+import com.pokedeck.imie.pokedeck.controller.ApplicationController;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -93,9 +94,6 @@ public class FightActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_fight);
 
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.battle);
-        mediaPlayer.start();
-
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
@@ -168,5 +166,12 @@ public class FightActivity extends AppCompatActivity {
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
 
+        ApplicationController.mediaPlayer.stop();
+        ApplicationController.mediaPlayer = MediaPlayer.create(this, R.raw.battle);
+        ApplicationController.mediaPlayer.start();
+    }
 }
