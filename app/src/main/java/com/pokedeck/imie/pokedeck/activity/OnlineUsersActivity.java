@@ -41,10 +41,8 @@ public class OnlineUsersActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        ArrayList<User> onlineUsers = User.getOnlineUsers(getApplicationContext());
 
-        UserAdapter userAdapter = new UserAdapter(this, onlineUsers);
-        listView.setAdapter(userAdapter);
+        ArrayList<User> onlineUsers = User.getOnlineUsers(getApplicationContext(), listView);
     }
 
     private void loginCheck() {

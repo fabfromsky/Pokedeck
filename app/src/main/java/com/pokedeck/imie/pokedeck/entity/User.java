@@ -2,12 +2,14 @@ package com.pokedeck.imie.pokedeck.entity;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.ListView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.pokedeck.imie.pokedeck.R;
+import com.pokedeck.imie.pokedeck.adapter.UserAdapter;
 import com.pokedeck.imie.pokedeck.controller.ApplicationController;
 
 import org.json.JSONArray;
@@ -58,7 +60,7 @@ public class User {
         }
     }
 
-    public static ArrayList<User> getOnlineUsers(Context context) {
+    public static ArrayList<User> getOnlineUsers(final Context context, final ListView listView) {
         final ArrayList<User> users = new ArrayList<>();
         String url = context.getResources().getString(R.string.baseURL) + "/api/user/online";
 
@@ -77,6 +79,11 @@ public class User {
                                 User user = new User(jsonObject);
                                 users.add(user);
                             }
+
+                            Log.i("User", "L'API a renvoyé une réponse");
+
+                            UserAdapter userAdapter = new UserAdapter(context, users);
+                            listView.setAdapter(userAdapter);
                         } catch (Exception e) {
                             Log.e("User", "JSONException : " + e.getMessage());
                         }
