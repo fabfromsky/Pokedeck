@@ -4,19 +4,19 @@ public class Fight {
 
     private Integer id;
 
-    private Trainer trainerA;
+    private User userA;
 
-    private Trainer trainerB;
+    private User userB;
 
-    private Trainer currentPlayer;
+    private User currentPlayer;
 
     public Fight() {
     }
 
-    public Fight(Integer id, Trainer trainerA, Trainer trainerB, Trainer currentPlayer) {
+    public Fight(Integer id, User userA, User userB, User currentPlayer) {
         this.id = id;
-        this.trainerA = trainerA;
-        this.trainerB = trainerB;
+        this.userA = userA;
+        this.userB = userB;
         this.currentPlayer = currentPlayer;
     }
 
@@ -28,11 +28,11 @@ public class Fight {
         this.id = id;
     }
 
-    public Trainer getCurrentPlayer() {
+    public User getCurrentPlayer() {
         return currentPlayer;
     }
 
-    public void setCurrentPlayer(Trainer currentPlayer) {
+    public void setCurrentPlayer(User currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
 
