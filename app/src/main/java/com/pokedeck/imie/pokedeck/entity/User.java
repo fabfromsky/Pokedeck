@@ -4,12 +4,11 @@ import android.content.Context;
 import android.util.Log;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.pokedeck.imie.pokedeck.R;
+import com.pokedeck.imie.pokedeck.controller.ApplicationController;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -57,6 +56,43 @@ public class User {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public static ArrayList<User> getOnlineUsers(Context context) {
+        final ArrayList<User> users = new ArrayList<>();
+        String url = context.getResources().getString(R.string.baseURL) + "/api/user/online";
+
+        Log.i("User", "Requested url : " + url);
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray onlineUsers = response.getJSONArray("online");
+
+                            for (int i = 0; i < onlineUsers.length(); i++) {
+                                JSONObject jsonObject = onlineUsers.getJSONObject(i);
+
+                                User user = new User(jsonObject);
+                                users.add(user);
+                            }
+                        } catch (Exception e) {
+                            Log.e("User", "JSONException : " + e.getMessage());
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("User", "Error : " + error.getMessage());
+                    }
+                }
+        );
+
+        ApplicationController.getInstance().addToRequestQueue(request);
+
+        return users;
     }
 
     /**
@@ -135,43 +171,5 @@ public class User {
 
     public void setPokemonTeam(ArrayList<Pokemon> pokemonTeam) {
         this.pokemonTeam = pokemonTeam;
-    }
-
-    public static ArrayList<User> getOnlineUsers(Context context) {
-        final ArrayList<User> users = new ArrayList<>();
-        String url = context.getResources().getString(R.string.baseURL) + "/api/user/online";
-
-        Log.i("User", "Requested url : " + url);
-
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONArray onlineUsers = response.getJSONArray("online");
-
-                            for (int i = 0; i < onlineUsers.length(); i++) {
-                                JSONObject jsonObject = onlineUsers.getJSONObject(i);
-
-                                User user = new User(jsonObject);
-                                users.add(user);
-                            }
-                        } catch (JSONException e) {
-                            Log.e("User", "JSONException : " + e.getMessage());
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("User", "Error : " + error.getMessage());
-                    }
-                }
-        );
-
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
-        requestQueue.add(request);
-
-        return users;
     }
 }

@@ -32,11 +32,7 @@ public class OnlineUsersActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Object o = view.getTag();
-
-                if (o != null) {
-                    User user = (User) o;
-                }
+                startViewFightActivity(id);
             }
         });
     }
@@ -59,5 +55,11 @@ public class OnlineUsersActivity extends AppCompatActivity {
         } else {
             Log.i("MainPageActivity", "loginCheck - User has already logged in");
         }
+    }
+
+    private void startViewFightActivity(long userId) {
+        Intent intent = new Intent(this, FightActivity.class);
+        intent.putExtra("userId", userId);
+        startActivity(intent);
     }
 }

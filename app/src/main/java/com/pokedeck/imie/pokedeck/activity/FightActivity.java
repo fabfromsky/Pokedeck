@@ -1,10 +1,11 @@
 package com.pokedeck.imie.pokedeck.activity;
 
 import android.annotation.SuppressLint;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -15,6 +16,7 @@ import com.pokedeck.imie.pokedeck.R;
  * status bar and navigation/system bar) with user interaction.
  */
 public class FightActivity extends AppCompatActivity {
+
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -91,6 +93,9 @@ public class FightActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_fight);
 
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.battle);
+        mediaPlayer.start();
+
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
@@ -162,4 +167,6 @@ public class FightActivity extends AppCompatActivity {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
+
+
 }

@@ -13,9 +13,8 @@ import java.util.ArrayList;
 
 public class Pokedeck {
 
-    private Long id;
-
     private static ArrayList<Pokemon> pokemons;
+    private Long id;
 
     public Pokedeck() {
     }

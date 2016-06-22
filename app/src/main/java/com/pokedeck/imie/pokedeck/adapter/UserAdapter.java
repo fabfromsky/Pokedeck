@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.pokedeck.imie.pokedeck.R;
-import com.pokedeck.imie.pokedeck.entity.Pokemon;
 import com.pokedeck.imie.pokedeck.entity.User;
 
 import java.util.List;
@@ -53,4 +52,5 @@ public class UserAdapter extends ArrayAdapter<User> {
 
         return view;
     }
+
 }
