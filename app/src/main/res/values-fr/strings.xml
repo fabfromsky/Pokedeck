@@ -8,8 +8,8 @@
     <string name="error_invalid_password">Ce mot de passe est trop court</string>
     <string name="permission_rationale">"Les pernmissions sur les contacts sont requises pour proposer un email[...]"</string>
     <string name="prompt_email">Courriel</string>
-    <string name="prompt_password">Mot de passe (optionnel)</string>
-    <string name="action_register">S\'enregistrer</string>
+    <string name="prompt_password">Mot de passe</string>
+    <string name="action_register"><u>S\'enregistrer</u></string>
     <string name="title_activity_main_page">Accueil</string>
     <string name="cancel">Annuler</string>
     <string name="proceed">Valider</string>
