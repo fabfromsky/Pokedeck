@@ -10,15 +10,12 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -37,15 +34,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.pokedeck.imie.pokedeck.R;
-import com.pokedeck.imie.pokedeck.controller.NetworkController;
+import com.pokedeck.imie.pokedeck.controller.ApplicationController;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
@@ -261,14 +256,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         int IS_PRIMARY = 1;
     }
 
+    public interface DataCallback {
+        void onSuccess(JSONObject result);
+    }
+
     /**
      * Represents an asynchronous login task used to authenticate
      * the user.
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-        String data = null;
         private final String mEmail;
         private final String mPassword;
+        String data = null;
 
         UserLoginTask(String email, String password) {
             mEmail = email;
@@ -380,11 +379,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             Log.e("UserLoginTask", "jsonObjectRequest - Error: " + error.getMessage());
                         }
                     });
-            NetworkController.getInstance().addToRequestQueue(jsonObjectRequest);
-        }
-    }
 
-    public interface DataCallback {
-        void onSuccess(JSONObject result);
+            ApplicationController.getInstance().addToRequestQueue(jsonObjectRequest);
+        }
     }
 }

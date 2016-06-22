@@ -1,14 +1,9 @@
 package com.pokedeck.imie.pokedeck.activity;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.pokedeck.imie.pokedeck.R;
@@ -17,7 +12,6 @@ import com.pokedeck.imie.pokedeck.entity.Pokedeck;
 import com.pokedeck.imie.pokedeck.entity.Pokemon;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class PokedeckActivity extends AppCompatActivity {
 
@@ -25,9 +19,6 @@ public class PokedeckActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // On verifie si le user est authentifie
-        loginCheck();
-
         if (Pokedeck.getPokemons(this.getApplicationContext()).size() == 0) {
             // TODO: Change this for a proper pokedeck creation
             // Creates a test pokedeck in case it's not yet ready
@@ -64,15 +55,5 @@ public class PokedeckActivity extends AppCompatActivity {
         ArrayList<Pokemon> pokemons = Pokedeck.getPokemons(this);
         PokedeckAdapter pokedeckAdapter = new PokedeckAdapter(this, pokemons);
         listView.setAdapter(pokedeckAdapter);
-    }
-
-    private void loginCheck() {
-        SharedPreferences sharedPreferences = getSharedPreferences("com.imie.pokedeck.prefs", Context.MODE_PRIVATE);
-        if (!sharedPreferences.contains("mEmail")) {
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-        } else {
-            Log.i("MainPageActivity", "loginCheck - User has already logged in");
-        }
     }
 }

@@ -25,4 +25,13 @@
     <string name="title_activity_main_page">Home</string>
     <string name="confirm_password">Confirm password</string>
     <string name="name">Name</string>
+
+    <!-- Strings related to fightPage -->
+    <string name="title_activity_fight">FightActivity</string>
+    <string name="start_fight">Fight !</string>
+
+    <!-- Strings related to network -->
+    <string name="generic_server_down">The server is down</string>
+    <string name="no_internet">There is no internet connection</string>
+    <string name="generic_error">An error occured</string>
 </resources>
