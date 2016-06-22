@@ -3,7 +3,6 @@ package com.pokedeck.imie.pokedeck.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -12,7 +11,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.pokedeck.imie.pokedeck.R;
-import com.pokedeck.imie.pokedeck.controller.ApplicationController;
+import com.pokedeck.imie.pokedeck.controller.MusicController;
+import com.pokedeck.imie.pokedeck.controller.QueueController;
 import com.pokedeck.imie.pokedeck.entity.User;
 
 import java.util.ArrayList;
@@ -42,13 +42,15 @@ public class OnlineUsersActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        if (ApplicationController.mediaPlayer != null)
-            ApplicationController.mediaPlayer.stop();
-
-        ApplicationController.mediaPlayer = MediaPlayer.create(this, R.raw.palette_town_theme);
-        ApplicationController.mediaPlayer.start();
+        MusicController.changeMusic(this, R.raw.palette_town_theme);
 
         ArrayList<User> onlineUsers = User.getOnlineUsers(getApplicationContext(), listView);
+    }
+
+    @Override
+    protected void onStop() {
+        MusicController.mediaPlayer.stop();
+        super.onStop();
     }
 
     private void loginCheck() {

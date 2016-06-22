@@ -1,36 +1,35 @@
 package com.pokedeck.imie.pokedeck.controller;
 
 import android.app.Application;
-import android.media.MediaPlayer;
 import android.text.TextUtils;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.Volley;
-import com.pokedeck.imie.pokedeck.R;
 
-public class ApplicationController extends Application {
+public class QueueController extends Application {
 
-    public static MediaPlayer mediaPlayer;
 
     /**
      * Log or request TAG
      */
     public static final String TAG = "VolleyPatterns";
+
     /**
      * A singleton instance of the application class for easy access in other places
      */
-    private static ApplicationController sInstance;
+    private static QueueController sInstance;
+
     /**
      * Global request queue for Volley
      */
     private RequestQueue mRequestQueue;
 
     /**
-     * @return ApplicationController singleton instance
+     * @return QueueController singleton instance
      */
-    public static synchronized ApplicationController getInstance() {
+    public static synchronized QueueController getInstance() {
         return sInstance;
     }
 
@@ -95,7 +94,5 @@ public class ApplicationController extends Application {
         }
     }
 
-    public static MediaPlayer getMediaPlayer() {
-        return mediaPlayer;
-    }
+
 }

@@ -10,7 +10,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.pokedeck.imie.pokedeck.R;
 import com.pokedeck.imie.pokedeck.adapter.UserAdapter;
-import com.pokedeck.imie.pokedeck.controller.ApplicationController;
+import com.pokedeck.imie.pokedeck.controller.QueueController;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -97,7 +97,7 @@ public class User {
                 }
         );
 
-        ApplicationController.getInstance().addToRequestQueue(request);
+        QueueController.getInstance().addToRequestQueue(request);
 
         return users;
     }

@@ -1,7 +1,6 @@
 package com.pokedeck.imie.pokedeck.activity;
 
 import android.annotation.SuppressLint;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
@@ -10,7 +9,8 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.pokedeck.imie.pokedeck.R;
-import com.pokedeck.imie.pokedeck.controller.ApplicationController;
+import com.pokedeck.imie.pokedeck.controller.MusicController;
+import com.pokedeck.imie.pokedeck.controller.QueueController;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -170,8 +170,12 @@ public class FightActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        ApplicationController.mediaPlayer.stop();
-        ApplicationController.mediaPlayer = MediaPlayer.create(this, R.raw.battle);
-        ApplicationController.mediaPlayer.start();
+        MusicController.changeMusic(this, R.raw.battle);
+    }
+
+    @Override
+    protected void onStop() {
+        MusicController.mediaPlayer.stop();
+        super.onStop();
     }
 }

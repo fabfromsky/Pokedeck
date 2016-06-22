@@ -21,7 +21,7 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.pokedeck.imie.pokedeck.R;
-import com.pokedeck.imie.pokedeck.controller.ApplicationController;
+import com.pokedeck.imie.pokedeck.controller.QueueController;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,6 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserRegisterTask mRegisterTask = null;
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -310,7 +311,7 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                     });
 
-            ApplicationController.getInstance().addToRequestQueue(jsonObjectRequest);
+            QueueController.getInstance().addToRequestQueue(jsonObjectRequest);
         }
     }
 }
