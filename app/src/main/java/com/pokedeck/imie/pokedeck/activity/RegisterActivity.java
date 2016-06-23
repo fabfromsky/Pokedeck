@@ -1,9 +1,7 @@
 package com.pokedeck.imie.pokedeck.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -11,12 +9,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.pokedeck.imie.pokedeck.R;
 import com.pokedeck.imie.pokedeck.controller.QueueController;
 
@@ -24,42 +22,30 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class RegisterActivity extends AppCompatActivity {
-    Button cancel, proceed;
+    Button mCancel, mProceed;
     TextView mEmailView, mPasswordView, mConfirmView, mNameView;
-
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-    private UserRegisterTask mRegisterTask = null;
-
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        // Gets view elements
-        cancel = (Button) findViewById(R.id.buttonRegisterCancel);
-        proceed = (Button) findViewById(R.id.buttonRegisterProceed);
+        mCancel = (Button) findViewById(R.id.buttonRegisterCancel);
+        mProceed = (Button) findViewById(R.id.buttonRegisterProceed);
 
         mNameView = (TextView) findViewById(R.id.editTextRegisterName);
         mEmailView = (TextView) findViewById(R.id.editTextRegisterEmail);
         mPasswordView = (TextView) findViewById(R.id.editTextRegisterPassword);
         mConfirmView = (TextView) findViewById(R.id.editTextRegisterConfirm);
 
-        // Set button action
-        cancel.setOnClickListener(new View.OnClickListener() {
+        mCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-        proceed.setOnClickListener(new View.OnClickListener() {
+
+        mProceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 attemptRegister();
@@ -68,9 +54,6 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void attemptRegister() {
-        if (mRegisterTask != null)
-            return;
-
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
@@ -101,6 +84,7 @@ public class RegisterActivity extends AppCompatActivity {
         // Check if password and confirm are the same.
         String passwordEntered = mPasswordView.getText().toString();
         String confirmEntered = mConfirmView.getText().toString();
+
         if (!passwordEntered.equals(confirmEntered)) {
             Log.i("RegisterActivity", "attemptRegister : passwordEntered {" + passwordEntered + "} and confirmEntered {" + confirmEntered + "} are different.");
 
@@ -125,10 +109,66 @@ public class RegisterActivity extends AppCompatActivity {
             // form field with an error.
             focusView.requestFocus();
         } else {
-            // perform the user login attempt.
-            mRegisterTask = new UserRegisterTask(name, email, password);
-            mRegisterTask.execute((Void) null);
+            performUserRegisterAttempt(name, email, password);
         }
+    }
+
+    private void performUserRegisterAttempt(final String name, final String email, String password) {
+        String url = getResources().getString(R.string.baseURL) + "/api/user/new";
+
+        Log.i("RegisterActivity", "performUserRegisterAttempt - url = " + url);
+
+        JSONObject jsonRequest = null;
+
+        try {
+            String jsonString = "{\"username\":\"" + name + "\",\"email\":\"" + email + "\",\"password\":\"" + password + "\",\"enabled\":\"1\"}";
+
+            jsonRequest = new JSONObject(jsonString);
+
+            Log.i("UserRegisterTask", "jsonString = " + jsonString);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        // We send the reques and fetch the response
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.POST, url, jsonRequest, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        String data;
+                        try {
+                            data = response.getString("response");
+
+                            Log.i("RegisterActivity", "fetchData - onResponse : data = " + data);
+
+                            if (data.equals("User successfully created")) {
+                                // We save authentication.
+                                SharedPreferences sharedPreferences = getSharedPreferences("com.imie.pokedeck.prefs", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("mName", name);
+                                editor.putString("mEmail", email);
+
+                                // Do commit() instead of apply() because it has to be done before to continue.
+                                editor.apply();
+
+                                finish();
+                            }
+                        } catch (JSONException e) {
+                            Log.e("RegisterActivity", "onErrorResponse - Error: " + e.getMessage());
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Case when it fails
+                        Log.e("RegisterActivity", "onErrorResponse - Error: " + error.toString());
+
+                        Toast toast = Toast.makeText(getApplicationContext(), "Une erreur est survenue", Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+                });
+
+        QueueController.getInstance().addToRequestQueue(jsonObjectRequest);
     }
 
     private boolean isEmailValid(String email) {
@@ -137,136 +177,5 @@ public class RegisterActivity extends AppCompatActivity {
 
     private boolean isPasswordValid(String password) {
         return password.length() > 4;
-    }
-
-    
-    public interface DataCallback {
-        void onSuccess(JSONObject result);
-    }
-
-    /**
-     * Represents an asynchronous registration task used to register
-     * the user.
-     */
-    public class UserRegisterTask extends AsyncTask<Void, Void, Boolean> {
-        private final String mName;
-        private final String mEmail;
-        private final String mPassword;
-        String data = null;
-
-        UserRegisterTask(String name, String email, String password) {
-            mName = name;
-            mEmail = email;
-            mPassword = password;
-        }
-
-        @SuppressLint("CommitPrefEdits")
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            Log.i("UserLoginTask", "doInBackground : mEmail = " + mEmail + "; mPassword = " + mPassword);
-
-            // Try to get authentified by the Symfo.
-            fetchData(new DataCallback() {
-                @Override
-                public void onSuccess(JSONObject result) {
-                    try {
-                        data = result.getString("response");
-                        Log.i("UserLoginTask", "fetchData - onSuccess : data = " + data);
-                    } catch (JSONException e) {
-                        Log.e("UserLoginTask", "fetchData - onSuccess : Error " + e.getMessage());
-                    }
-                }
-            });
-
-            // As if it were synchronous, wait for the response. Not so proud about that.
-            int i = 0;
-            while (data == null && i < 1000) {
-                synchronized (this) {
-                    try {
-                        this.wait(10);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                i++;
-            }
-
-            if (data != null) {
-                if (data.equals("User successfully created")) {
-                    // We save authentication.
-                    SharedPreferences sharedPreferences = getSharedPreferences("com.imie.pokedeck.prefs", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("mName", mName);
-                    editor.putString("mEmail", mEmail);
-
-                    // Do commit() instead of apply() because it has to be done before to continue.
-                    editor.commit();
-
-                    return true;
-                } else {
-                    return false;
-                }
-            } else {
-                return false;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mRegisterTask = null;
-
-            if (success) {
-                // Finish current activity shows back the main activity.
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mRegisterTask = null;
-        }
-
-        public void fetchData(final DataCallback callback) {
-            String url = getResources().getString(R.string.baseURL) + "/api/user/new";
-
-            Log.i("UserRegisterTask", "fetchData - url = " + url);
-
-            JSONObject jsonRequest = null;
-
-            try {
-                String jsonString = "{\"username\":\"" + mName + "\",\"email\":\"" + mEmail + "\",\"password\":\"" + mPassword + "\",\"enabled\":\"1\"}";
-
-                jsonRequest = new JSONObject(jsonString);
-
-                Log.i("UserRegisterTask", "jsonString = " + jsonString);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            // We send the reques and fetch the response
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                    (Request.Method.POST, url, jsonRequest, new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            // Case when everything goes well
-                            assert response != null;
-                            Log.i("UserLoginTask", "jsonObjectRequest - response = " + response.toString());
-
-                            callback.onSuccess(response);
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            // Case when it fails
-                            Log.e("UserLoginTask", "jsonObjectRequest - Error: " + error.getMessage());
-                        }
-                    });
-
-            QueueController.getInstance().addToRequestQueue(jsonObjectRequest);
-        }
     }
 }
