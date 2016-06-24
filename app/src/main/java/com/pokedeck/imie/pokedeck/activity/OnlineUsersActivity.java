@@ -12,7 +12,6 @@ import android.widget.ListView;
 
 import com.pokedeck.imie.pokedeck.R;
 import com.pokedeck.imie.pokedeck.controller.MusicController;
-import com.pokedeck.imie.pokedeck.controller.QueueController;
 import com.pokedeck.imie.pokedeck.entity.User;
 
 import java.util.ArrayList;
@@ -42,7 +41,7 @@ public class OnlineUsersActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        MusicController.changeMusic(this, R.raw.palette_town_theme);
+        MusicController.setMusic(this, R.raw.palette_town_theme);
 
         ArrayList<User> onlineUsers = User.getOnlineUsers(getApplicationContext(), listView);
     }

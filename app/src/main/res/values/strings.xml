@@ -34,4 +34,6 @@
     <string name="generic_server_down">The server is down</string>
     <string name="no_internet">There is no internet connection</string>
     <string name="generic_error">An error occured</string>
+    <string name="spash">Spash</string>
+    <string name="background">background</string>
 </resources>

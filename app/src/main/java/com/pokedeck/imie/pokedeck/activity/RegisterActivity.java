@@ -1,5 +1,7 @@
 package com.pokedeck.imie.pokedeck.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -22,8 +24,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class RegisterActivity extends AppCompatActivity {
-    Button mCancel, mProceed;
-    TextView mEmailView, mPasswordView, mConfirmView, mNameView;
+    private Button mCancel, mProceed;
+    private TextView mEmailView, mPasswordView, mConfirmView, mNameView;
+    private View mProgressView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,8 @@ public class RegisterActivity extends AppCompatActivity {
                 attemptRegister();
             }
         });
+
+        mProgressView = findViewById(R.id.register_progress);
     }
 
     private void attemptRegister() {
@@ -114,6 +119,14 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void performUserRegisterAttempt(final String name, final String email, String password) {
+        mProgressView.setVisibility(View.VISIBLE);
+        mProgressView.animate().setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime)).alpha(1).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mProgressView.setVisibility(View.VISIBLE);
+            }
+        });
+
         String url = getResources().getString(R.string.baseURL) + "/api/user/new";
 
         Log.i("RegisterActivity", "performUserRegisterAttempt - url = " + url);
@@ -160,6 +173,14 @@ public class RegisterActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        mProgressView.setVisibility(View.GONE);
+                        mProgressView.animate().setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime)).alpha(0).setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                mProgressView.setVisibility(View.GONE);
+                            }
+                        });
+
                         // Case when it fails
                         Log.e("RegisterActivity", "onErrorResponse - Error: " + error.toString());
 

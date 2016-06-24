@@ -10,14 +10,16 @@ import android.util.Log;
 public class MusicController {
     public static MediaPlayer mediaPlayer;
 
-    public static void changeMusic(Context context, int music) {
-        if (mediaPlayer != null)
+    public static void setMusic(Context context, int music) {
+        if (mediaPlayer != null) {
             mediaPlayer.stop();
+            mediaPlayer.release();
+        }
 
         mediaPlayer = MediaPlayer.create(context, music);
         mediaPlayer.start();
         mediaPlayer.setLooping(true);
 
-        Log.i("QueueController", "Music has changed !");
+        Log.i("MusicController", "Music has changed !");
     }
 }
