@@ -1,16 +1,24 @@
 package com.pokedeck.imie.pokedeck.activity;
 
 import android.annotation.SuppressLint;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.pokedeck.imie.pokedeck.R;
 import com.pokedeck.imie.pokedeck.controller.MusicController;
 import com.pokedeck.imie.pokedeck.controller.QueueController;
+import com.pokedeck.imie.pokedeck.services.PushService;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -18,6 +26,9 @@ import com.pokedeck.imie.pokedeck.controller.QueueController;
  */
 public class FightActivity extends AppCompatActivity {
 
+    protected PushService serviceProxy;
+
+    protected Button fightButton;
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -98,7 +109,6 @@ public class FightActivity extends AppCompatActivity {
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
 
-
         // Set up the user interaction to manually show or hide the system UI.
         mContentView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +120,30 @@ public class FightActivity extends AppCompatActivity {
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
-        findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
+        //findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
+        findViewById(R.id.dummy_button).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                startDatabaseActivity();
+            }
+        });
+
+        Intent intent = new Intent(this, PushService.class);
+        Toast.makeText(FightActivity.this, "Launch service", Toast.LENGTH_SHORT).show();
+        this.startService(intent);
+
+        this.bindService(intent, new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                PushService.PushServiceBinder pushService = (PushService.PushServiceBinder) service;
+                serviceProxy = pushService.getPushService();
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+
+            }
+        }, BIND_AUTO_CREATE);
     }
 
     @Override
@@ -177,5 +210,10 @@ public class FightActivity extends AppCompatActivity {
     protected void onStop() {
         MusicController.mediaPlayer.stop();
         super.onStop();
+    }
+
+    private void startDatabaseActivity() {
+        Intent intent = new Intent(this, DatabaseActivity.class);
+        startActivity(intent);
     }
 }
