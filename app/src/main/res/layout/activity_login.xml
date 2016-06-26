@@ -1,18 +1,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/FullscreenTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".activity.LoginActivity"
-    style="@style/FullscreenTheme">
+    tools:context=".activity.LoginActivity">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@mipmap/splash"
+        android:contentDescription="@string/background"
         android:scaleType="centerCrop"
-        android:contentDescription="@string/background" />
+        android:src="@mipmap/splash" />
 
     <!-- Login progress -->
     <ProgressBar
@@ -27,11 +27,11 @@
         android:id="@+id/email_login_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
         android:baselineAligned="false"
-        android:textAlignment="gravity"
         android:gravity="center_vertical|center"
         android:orientation="vertical"
-        android:layout_gravity="center">
+        android:textAlignment="gravity">
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="wrap_content"
@@ -41,9 +41,9 @@
 
             <AutoCompleteTextView
                 android:id="@+id/email"
+                style="@style/InputTheme"
                 android:hint="@string/prompt_email"
-                android:inputType="textEmailAddress"
-                style="@style/InputTheme"/>
+                android:inputType="textEmailAddress" />
 
 
         </android.support.design.widget.TextInputLayout>
@@ -54,12 +54,12 @@
 
             <EditText
                 android:id="@+id/password"
+                style="@style/InputTheme"
                 android:hint="@string/prompt_password"
                 android:imeActionId="@+id/login"
                 android:imeActionLabel="@string/action_sign_in"
                 android:imeOptions="actionUnspecified"
-                android:inputType="textPassword"
-                style="@style/InputTheme" />
+                android:inputType="textPassword" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -69,8 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="@string/action_sign_in"
-            />
+            android:text="@string/action_sign_in" />
 
         <Button
             android:id="@+id/email_register_button"
@@ -78,8 +77,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@string/action_register"
-            />
+            android:text="@string/action_register" />
 
     </LinearLayout>
 
