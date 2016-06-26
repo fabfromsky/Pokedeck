@@ -11,9 +11,10 @@ public class MusicController {
     public static MediaPlayer mediaPlayer;
 
     public static void setMusic(Context context, int music) {
-        if (mediaPlayer != null) {
+        if (null != mediaPlayer) {
             mediaPlayer.stop();
             mediaPlayer.release();
+            mediaPlayer = null;
         }
 
         mediaPlayer = MediaPlayer.create(context, music);
