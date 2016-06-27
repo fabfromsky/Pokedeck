@@ -12,18 +12,16 @@ import android.widget.ListView;
 
 import com.pokedeck.imie.pokedeck.R;
 import com.pokedeck.imie.pokedeck.controller.MusicController;
-import com.pokedeck.imie.pokedeck.entity.User;
-
-import java.util.ArrayList;
 
 public class OnlineUsersActivity extends AppCompatActivity {
 
     ListView listView;
+    boolean isLogged;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // On verifie si le user est authentifie
-        loginCheck();
+        isLogged = loginCheck();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_online_users);
@@ -35,15 +33,17 @@ public class OnlineUsersActivity extends AppCompatActivity {
                 startViewFightActivity(id);
             }
         });
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        MusicController.setMusic(this, R.raw.palette_town_theme);
+        if (isLogged)
+            MusicController.setMusic(this, R.raw.palette_town_theme);
 
-        ArrayList<User> onlineUsers = User.getOnlineUsers(getApplicationContext(), listView);
+        //ArrayList<User> onlineUsers = User.getOnlineUsers(getApplicationContext(), listView);
     }
 
     @Override
@@ -52,13 +52,17 @@ public class OnlineUsersActivity extends AppCompatActivity {
         super.onStop();
     }
 
-    private void loginCheck() {
+    private boolean loginCheck() {
         SharedPreferences sharedPreferences = getSharedPreferences("com.imie.pokedeck.prefs", Context.MODE_PRIVATE);
         if (!sharedPreferences.contains("mEmail")) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
+
+            return false;
         } else {
             Log.i("MainPageActivity", "loginCheck - User has already logged in");
+
+            return true;
         }
     }
 

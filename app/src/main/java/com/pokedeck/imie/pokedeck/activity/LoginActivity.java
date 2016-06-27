@@ -36,6 +36,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        MusicController.setMusic(this, R.raw.opening);
+
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
         mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
@@ -63,7 +65,14 @@ public class LoginActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        MusicController.setMusic(this, R.raw.opening);
+        MusicController.resume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        MusicController.pause();
     }
 
     @Override
