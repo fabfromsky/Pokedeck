@@ -35,7 +35,12 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".activity.FightActivity"></activity>
+        <activity android:name=".activity.FightActivity"/>
+
+        <service
+            android:name=".service.BackgroundMusicService"
+            android:enabled="true"
+            android:stopWithTask="true" />
     </application>
 
 </manifest>

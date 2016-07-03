@@ -11,16 +11,21 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.pokedeck.imie.pokedeck.R;
-import com.pokedeck.imie.pokedeck.controller.MusicController;
+import com.pokedeck.imie.pokedeck.service.BackgroundMusicService;
 
 public class OnlineUsersActivity extends AppCompatActivity {
 
+    public static final String MEDIA_PATH = "";
     ListView listView;
     boolean isLogged;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // On verifie si le user est authentifie
+        // As it's the main activity it's here we start BackgroundMusicService
+        Intent svc = new Intent(this, BackgroundMusicService.class);
+        startService(svc);
+
+        // Check if user has already logged in
         isLogged = loginCheck();
 
         super.onCreate(savedInstanceState);
@@ -34,22 +39,6 @@ public class OnlineUsersActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if (isLogged)
-            MusicController.setMusic(this, R.raw.palette_town_theme);
-
-        //ArrayList<User> onlineUsers = User.getOnlineUsers(getApplicationContext(), listView);
-    }
-
-    @Override
-    protected void onStop() {
-        MusicController.mediaPlayer.stop();
-        super.onStop();
     }
 
     private boolean loginCheck() {

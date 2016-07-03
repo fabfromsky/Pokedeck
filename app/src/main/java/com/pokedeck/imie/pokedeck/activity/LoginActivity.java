@@ -20,7 +20,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.pokedeck.imie.pokedeck.R;
-import com.pokedeck.imie.pokedeck.controller.MusicController;
 import com.pokedeck.imie.pokedeck.controller.QueueController;
 
 import org.json.JSONException;
@@ -28,7 +27,6 @@ import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText mEmailView, mPasswordView;
-    private Button mEmailSignInButton, mRegisterButton;
     private View mProgressView;
 
     @Override
@@ -36,13 +34,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        MusicController.setMusic(this, R.raw.opening);
-
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
-        mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mRegisterButton = (Button) findViewById(R.id.email_register_button);
+        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        Button mRegisterButton = (Button) findViewById(R.id.email_register_button);
 
+        assert mEmailSignInButton != null;
         mEmailSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        assert mRegisterButton != null;
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,26 +57,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         mProgressView = findViewById(R.id.login_progress);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        MusicController.resume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        MusicController.pause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        MusicController.mediaPlayer.stop();
-        super.onDestroy();
     }
 
     private void attemptLogin() {
