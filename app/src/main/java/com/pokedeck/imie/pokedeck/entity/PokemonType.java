@@ -1,5 +1,7 @@
 package com.pokedeck.imie.pokedeck.entity;
 
+import java.util.ArrayList;
+
 public class PokemonType {
 
     private Long id;
@@ -22,12 +24,12 @@ public class PokemonType {
 
     private Integer idPokedex;
 
-    private Type type;
+    private ArrayList<Type> type;
 
     public PokemonType() {
     }
 
-    public PokemonType(Long id, String name, Integer speed, Float attack, Float attackSpe, Float defense, Float defenseSpe, Integer pvMax, Integer pvMin, Integer idPokedex, Type type) {
+    public PokemonType(Long id, String name, Integer speed, Float attack, Float attackSpe, Float defense, Float defenseSpe, Integer pvMax, Integer pvMin, Integer idPokedex, ArrayList<Type> type) {
         this.id = id;
         this.name = name;
         this.speed = speed;
@@ -121,11 +123,11 @@ public class PokemonType {
         this.idPokedex = idPokedex;
     }
 
-    public Type getType() {
+    public ArrayList<Type> getType() {
         return type;
     }
 
-    public void setType(Type type) {
+    public void setType(ArrayList<Type> type) {
         this.type = type;
     }
 }
