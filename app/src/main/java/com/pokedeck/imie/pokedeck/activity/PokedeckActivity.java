@@ -10,8 +10,13 @@ import com.pokedeck.imie.pokedeck.R;
 import com.pokedeck.imie.pokedeck.adapter.PokedeckAdapter;
 import com.pokedeck.imie.pokedeck.entity.Pokedeck;
 import com.pokedeck.imie.pokedeck.entity.Pokemon;
+import com.pokedeck.imie.pokedeck.enumeration.PokemonTypeEnum;
+import com.pokedeck.imie.pokedeck.enumeration.TypeEnum;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Random;
 
 public class PokedeckActivity extends AppCompatActivity {
 
@@ -22,10 +27,20 @@ public class PokedeckActivity extends AppCompatActivity {
         if (Pokedeck.getPokemons(this.getApplicationContext()).size() == 0) {
             // TODO: Change this for a proper pokedeck creation
             // Creates a test pokedeck in case it's not yet ready
+            Random rand = new Random();
             for (int i = 0; i <= 19; i++) {
                 Pokemon pokemon = new Pokemon();
-                pokemon.setNickname("Pikachu");
-                pokemon.setPv(150);
+                PokemonTypeEnum pokeType = PokemonTypeEnum.values()[rand.nextInt(PokemonTypeEnum.values().length)];
+
+                pokemon.setPokemonType(pokeType);
+                pokemon.setNickname(pokeType.name);
+                pokemon.setPv(rand.nextInt(500));
+                pokemon.setSpeed(rand.nextInt(500));
+                pokemon.setAttack(rand.nextInt(500));
+                pokemon.setAttackSpe(pokemon.getAttack() + rand.nextInt(100));
+                pokemon.setDefense(rand.nextInt(500));
+                pokemon.setDefenseSpe(pokemon.getDefense() + rand.nextInt(100));
+                pokemon.setIdPokedeck(rand.nextInt(151) + 1);
 
                 Pokedeck pokedeck = new Pokedeck();
                 pokedeck.addPokemon(this.getApplicationContext(), pokemon);
@@ -43,6 +58,15 @@ public class PokedeckActivity extends AppCompatActivity {
 
                 if (o != null) {
                     Pokemon pokemon = (Pokemon) o;
+                    String pokeId;
+                    if(pokemon.getPokemonType().idPokedex < 100 && pokemon.getPokemonType().idPokedex >= 10){
+                        pokeId = "0" + pokemon.getPokemonType().idPokedex.toString();
+                    } else if(pokemon.getPokemonType().idPokedex < 10){
+                        pokeId = "00" + pokemon.getPokemonType().idPokedex.toString();
+                    } else {
+                        pokeId = pokemon.getPokemonType().idPokedex.toString();
+                    }
+                    String imageSrc = pokeId + ".png";
                 }
             }
         });
