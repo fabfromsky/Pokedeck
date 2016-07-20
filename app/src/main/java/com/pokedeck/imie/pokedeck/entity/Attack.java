@@ -1,5 +1,7 @@
 package com.pokedeck.imie.pokedeck.entity;
 
+import com.pokedeck.imie.pokedeck.enumeration.TypeEnum;
+
 public class Attack {
 
     private Integer id;
@@ -8,12 +10,12 @@ public class Attack {
 
     private Integer power;
 
-    private Type type;
+    private TypeEnum type;
 
     public Attack() {
     }
 
-    public Attack(Integer id, String name, Integer power, Type type) {
+    public Attack(Integer id, String name, Integer power, TypeEnum type) {
         this.id = id;
         this.name = name;
         this.power = power;
@@ -44,11 +46,11 @@ public class Attack {
         this.power = power;
     }
 
-    public Type getType() {
+    public TypeEnum getType() {
         return type;
     }
 
-    public void setType(Type type) {
+    public void setType(TypeEnum type) {
         this.type = type;
     }
 }
