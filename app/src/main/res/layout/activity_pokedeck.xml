@@ -11,12 +11,214 @@
         android:scaleType="centerCrop"
         android:src="@mipmap/back" />
 
-    <com.pokedeck.imie.pokedeck.util.HorizontalListView
-        android:id="@+id/pokedeck_list"
-        android:layout_width="wrap_content"
-        android:layout_height="150dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="160dp">
+
+        <com.pokedeck.imie.pokedeck.util.HorizontalListView
+            android:id="@+id/pokedeck_list"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="5dp" />
+    </RelativeLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:background="#a01e338d"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:weightSum="1"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp">
+
+        <TableLayout
+            android:id="@+id/pokedeck_pokemon_infos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:layout_weight="0.17">
+
+            <TableRow
+                android:id="@+id/pokedeck_row_pokemonName">
+                <TextView
+                    android:layout_width="140dp"
+                    android:layout_height="wrap_content"
+                    android:text="New Text"
+                    android:id="@+id/pokedeck_pokemonName"
+                    android:textSize="16dp"
+                    android:textColor="#ffffff"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/pokedeck_row_pokemonPv">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PV :"
+                    android:id="@+id/pokedeck_pvLabel"
+                    android:layout_below="@+id/pokedeck_pokemonName"
+                    android:layout_alignLeft="@+id/pokedeck_pokemonName"
+                    android:layout_alignStart="@+id/pokedeck_pokemonName"
+                    android:textColor="#ffffff"
+                    android:textSize="11sp" />
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/pokedeck_pokePv"
+                    android:textColor="#ffffff"
+                    android:textAlignment="textEnd"
+                    android:layout_below="@+id/pokedeck_pokemonName"
+                    android:gravity="end"
+                    android:textIsSelectable="false"
+                    android:textSize="11sp"
+                    android:layout_toLeftOf="@+id/pokedeck_pokeAtqSpe"
+                    android:layout_gravity="right" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/pokedeck_row_pokemonAtk">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Atq. :"
+                    android:id="@+id/pokedeck_atkLabel"
+                    android:layout_below="@+id/pokedeck_pvLabel"
+                    android:layout_alignLeft="@+id/pokedeck_pvLabel"
+                    android:layout_alignStart="@+id/pokedeck_pvLabel"
+                    android:textColor="#ffffff"
+                    android:textSize="11sp" />
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/pokedeck_pokeAtq"
+                    android:textColor="#ffffff"
+                    android:layout_below="@+id/pokedeck_pokePv"
+                    android:textAlignment="textEnd"
+                    android:gravity="end"
+                    android:textIsSelectable="false"
+                    android:textSize="11sp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="right" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/pokedeck_row_pokemonAtkSpe">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Atq. Spe :"
+                    android:id="@+id/pokedeck_atqSpeLabel"
+                    android:layout_below="@+id/pokedeck_atkLabel"
+                    android:layout_alignLeft="@+id/pokedeck_atkLabel"
+                    android:layout_alignStart="@+id/pokedeck_atkLabel"
+                    android:textColor="#ffffff"
+                    android:textSize="11sp" />
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/pokedeck_pokeAtqSpe"
+                    android:textColor="#ffffff"
+                    android:textAlignment="textEnd"
+                    android:layout_below="@+id/pokedeck_pokeAtq"
+                    android:gravity="end"
+                    android:textIsSelectable="false"
+                    android:textSize="11sp"
+                    android:layout_toLeftOf="@+id/pokedeck_pokePv"
+                    android:layout_gravity="right" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/pokedeck_row_pokemonDef">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Def. :"
+                    android:id="@+id/pokedeck_defLabel"
+                    android:layout_below="@+id/pokedeck_atqSpeLabel"
+                    android:layout_alignLeft="@+id/pokedeck_atqSpeLabel"
+                    android:layout_alignStart="@+id/pokedeck_atqSpeLabel"
+                    android:textColor="#ffffff"
+                    android:textSize="11sp" />
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/pokedeck_pokeDef"
+                    android:textColor="#ffffff"
+                    android:textAlignment="textEnd"
+                    android:layout_above="@+id/pokedeck_defSpeLabel"
+                    android:gravity="end"
+                    android:textIsSelectable="false"
+                    android:textSize="11sp"
+                    android:layout_toLeftOf="@+id/pokedeck_pokeAtqSpe"
+                    android:layout_gravity="right" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/pokedeck_row_pokemonDefSpe">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Def. Spe :"
+                    android:id="@+id/pokedeck_defSpeLabel"
+                    android:layout_below="@+id/pokedeck_defLabel"
+                    android:layout_alignLeft="@+id/pokedeck_defLabel"
+                    android:layout_alignStart="@+id/pokedeck_defLabel"
+                    android:textColor="#ffffff"
+                    android:textSize="11sp" />
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/pokedeck_pokeDefSpe"
+                    android:textColor="#ffffff"
+                    android:textAlignment="textEnd"
+                    android:layout_below="@+id/pokedeck_pokeDef"
+                    android:gravity="end"
+                    android:textIsSelectable="false"
+                    android:textSize="11sp"
+                    android:layout_toLeftOf="@+id/pokedeck_pokeDef"
+                    android:layout_gravity="right" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/pokedeck_row_pokemonSpeed">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Speed :"
+                    android:id="@+id/pokedeck_speedLabel"
+                    android:textColor="#ffffff"
+                    android:layout_below="@+id/pokedeck_defSpeLabel"
+                    android:layout_alignLeft="@+id/pokedeck_defSpeLabel"
+                    android:layout_alignStart="@+id/pokedeck_defSpeLabel"
+                    android:textSize="11sp" />
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/pokedeck_pokeSpeed"
+                    android:textColor="#ffffff"
+                    android:textAlignment="textEnd"
+                    android:layout_below="@+id/pokedeck_pokeDefSpe"
+                    android:gravity="end"
+                    android:textIsSelectable="false"
+                    android:textSize="11sp"
+                    android:layout_toLeftOf="@+id/pokedeck_pokeDefSpe"
+                    android:layout_gravity="right" />
+            </TableRow>
+
+        </TableLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>

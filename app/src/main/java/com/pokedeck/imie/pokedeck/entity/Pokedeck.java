@@ -72,7 +72,7 @@ public class Pokedeck {
         Pokedeck.pokemons = pokemons;
     }
 
-    public Pokemon getPokemon(Context context, Long id) {
+    public Pokemon getPokemon(Context context, int id) {
         Pokemon pokemon = null;
 
         LocalSQLiteOpenHelper helper = new LocalSQLiteOpenHelper(context);
@@ -125,7 +125,7 @@ public class Pokedeck {
         values.put("defense", pokemon.getDefense());
         values.put("defenseSpe", pokemon.getDefenseSpe());
         values.put("idPokedeck", pokemon.getIdPokedeck());
-        values.put("pokemonTypeId", pokemon.getPokemonType().ordinal());
+        //values.put("pokemonTypeId", pokemon.getPokemonType().ordinal());
 
         LocalSQLiteOpenHelper helper = new LocalSQLiteOpenHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();

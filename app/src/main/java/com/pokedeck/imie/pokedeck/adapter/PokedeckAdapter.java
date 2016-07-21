@@ -2,16 +2,12 @@ package com.pokedeck.imie.pokedeck.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.pokedeck.imie.pokedeck.R;
 import com.pokedeck.imie.pokedeck.entity.Pokemon;
@@ -47,12 +43,6 @@ public class PokedeckAdapter extends ArrayAdapter<Pokemon> {
 
         // Current pokemon's reference is store in the current view
         view.setTag(pokemon);
-
-        /*TextView nickname = (TextView) view.findViewById(R.id.listitem_pokedeck_nickname);
-        TextView pv = (TextView) view.findViewById(R.id.listitem_pokedeck_pv);
-
-        nickname.setText(pokemon.getNickname());
-        pv.setText(pokemon.getPv().toString());*/
 
         ImageView pokemonImg = (ImageView) view.findViewById(R.id.listitem_pokedeck_image);
         try {
