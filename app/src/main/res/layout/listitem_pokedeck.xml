@@ -13,6 +13,7 @@
         android:layout_marginRight="2dp">
 
         <ImageView
+            android:id="@+id/listitem_card_bg"
             android:layout_width="113dp"
             android:layout_height="154dp"
             android:scaleType="centerCrop"

@@ -1,10 +1,13 @@
 package com.pokedeck.imie.pokedeck.activity;
 
 import android.content.Context;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pokedeck.imie.pokedeck.R;
@@ -79,6 +82,13 @@ public class PokedeckActivity extends AppCompatActivity {
 
                 if (o != null) {
                     currentPokemon = (Pokemon) o;
+
+                    for(int i=0; i<parent.getChildCount(); i++){
+                        ImageView cardBg = (ImageView) parent.getChildAt(i).findViewById(R.id.listitem_card_bg);
+                        cardBg.setImageResource(R.drawable.cardshadow);
+                    }
+                    ImageView cardBg = (ImageView) view.findViewById(R.id.listitem_card_bg);
+                    cardBg.setImageResource(R.drawable.cardlight);
                     refreshInfo(currentPokemon);
                 }
             }
