@@ -12,15 +12,14 @@ import com.pokedeck.imie.pokedeck.entity.Pokedeck;
 import com.pokedeck.imie.pokedeck.entity.Pokemon;
 import com.pokedeck.imie.pokedeck.enumeration.PokemonTypeEnum;
 import com.pokedeck.imie.pokedeck.enumeration.TypeEnum;
+import com.pokedeck.imie.pokedeck.util.HorizontalListView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Random;
 
 public class PokedeckActivity extends AppCompatActivity {
 
-    ListView listView;
+    HorizontalListView horizontalListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,23 +49,14 @@ public class PokedeckActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pokedeck);
 
-        listView = (ListView) findViewById(R.id.pokedeck_list);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        horizontalListView = (HorizontalListView) findViewById(R.id.pokedeck_list);
+        horizontalListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Object o = view.getTag();
 
                 if (o != null) {
                     Pokemon pokemon = (Pokemon) o;
-                    String pokeId;
-                    if(pokemon.getPokemonType().idPokedex < 100 && pokemon.getPokemonType().idPokedex >= 10){
-                        pokeId = "0" + pokemon.getPokemonType().idPokedex.toString();
-                    } else if(pokemon.getPokemonType().idPokedex < 10){
-                        pokeId = "00" + pokemon.getPokemonType().idPokedex.toString();
-                    } else {
-                        pokeId = pokemon.getPokemonType().idPokedex.toString();
-                    }
-                    String imageSrc = pokeId + ".png";
                 }
             }
         });
@@ -78,6 +68,6 @@ public class PokedeckActivity extends AppCompatActivity {
 
         ArrayList<Pokemon> pokemons = Pokedeck.getPokemons(this);
         PokedeckAdapter pokedeckAdapter = new PokedeckAdapter(this, pokemons);
-        listView.setAdapter(pokedeckAdapter);
+        horizontalListView.setAdapter(pokedeckAdapter);
     }
 }

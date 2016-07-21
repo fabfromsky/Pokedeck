@@ -20,8 +20,8 @@ public class LocalSQLiteOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String sqlFillTable = "CREATE TABLE pokemon (id INTEGER PRIMARY KEY," +
-                "nickname TEXT, pv NUMERIC" +
-                ");";
+                "nickname TEXT, pv NUMERIC, speed NUMERIC, attack NUMERIC, attackSpe NUMERIC," +
+                "defense NUMERIC, defenseSpe NUMERIC, idPokedeck NUMERIC);";
 
         db.beginTransaction();
 

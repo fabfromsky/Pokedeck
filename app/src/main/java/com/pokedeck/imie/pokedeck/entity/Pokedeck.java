@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
+import com.pokedeck.imie.pokedeck.enumeration.PokemonTypeEnum;
 import com.pokedeck.imie.pokedeck.helper.LocalSQLiteOpenHelper;
 
 import java.util.ArrayList;
@@ -35,7 +36,13 @@ public class Pokedeck {
             cursor = db.query(true, "pokemon", new String[]{
                             "id",
                             "nickname",
-                            "pv"
+                            "pv",
+                            "speed",
+                            "attack",
+                            "attackSpe",
+                            "defense",
+                            "defenseSpe",
+                            "idPokedeck"
                     },
                     null,
                     null,
@@ -77,7 +84,13 @@ public class Pokedeck {
             cursor = db.query(true, "pokemon", new String[]{
                             "id",
                             "nickname",
-                            "pv"
+                            "pv",
+                            "speed",
+                            "attack",
+                            "attackSpe",
+                            "defense",
+                            "defenseSpe",
+                            "idPokedeck"
                     },
                     where,
                     null,
@@ -106,6 +119,13 @@ public class Pokedeck {
         ContentValues values = new ContentValues();
         values.put("nickname", pokemon.getNickname());
         values.put("pv", pokemon.getPv());
+        values.put("speed", pokemon.getSpeed());
+        values.put("attack", pokemon.getAttack());
+        values.put("attackSpe", pokemon.getAttackSpe());
+        values.put("defense", pokemon.getDefense());
+        values.put("defenseSpe", pokemon.getDefenseSpe());
+        values.put("idPokedeck", pokemon.getIdPokedeck());
+        values.put("pokemonTypeId", pokemon.getPokemonType().ordinal());
 
         LocalSQLiteOpenHelper helper = new LocalSQLiteOpenHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
