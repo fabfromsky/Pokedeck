@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.pokedeck.imie.pokedeck.R;
@@ -39,6 +40,19 @@ public class OnlineUsersActivity extends AppCompatActivity {
             }
         });
 
+        Button goPokedeckButton = (Button) findViewById(R.id.goPokedeck);
+        goPokedeckButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToPokedeck();
+            }
+        });
+
+    }
+
+    private void goToPokedeck() {
+        Intent intent = new Intent(getApplicationContext(), PokedeckActivity.class);
+        startActivity(intent);
     }
 
     private boolean loginCheck() {
