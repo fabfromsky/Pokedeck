@@ -54,14 +54,28 @@ public class PokedeckActivity extends AppCompatActivity {
                 pokemon.setDefenseSpe(pokemon.getDefense() + rand.nextInt(100));
                 pokemon.setIdPokedeck(rand.nextInt(151) + 1);
 
-                //TODO change attack generation to have pokemon types attacks only
-                AttackEnum attack1 = AttackEnum.values()[rand.nextInt(107) + 1];
+                //random attacks from pokemon types attacks
+                //we first define the pokemon types attacks in a list
+                ArrayList<AttackEnum> pokemonTypeAttacksList = new ArrayList();
+                for(int j = 0; j<AttackEnum.values().length; j++){
+                    if(AttackEnum.values()[j].type == pokemon.getPokemonType().types[0] ||
+                            (pokemon.getPokemonType().types.length > 1 &&
+                                    AttackEnum.values()[j].type == pokemon.getPokemonType().types[1])){
+                        pokemonTypeAttacksList.add(AttackEnum.values()[j]);
+                    }
+                }
+                //we set the first attack with a random one then we remove it from attack list in order not to get it again
+                //repeat until 4th attack
+                AttackEnum attack1 = pokemonTypeAttacksList.get(rand.nextInt(pokemonTypeAttacksList.size()));
                 pokemon.setAttack1(attack1);
-                AttackEnum attack2 = AttackEnum.values()[rand.nextInt(107) + 1];
+                pokemonTypeAttacksList.remove(attack1);
+                AttackEnum attack2 = pokemonTypeAttacksList.get(rand.nextInt(pokemonTypeAttacksList.size()));
                 pokemon.setAttack2(attack2);
-                AttackEnum attack3 = AttackEnum.values()[rand.nextInt(107) + 1];
+                pokemonTypeAttacksList.remove(attack2);
+                AttackEnum attack3 = pokemonTypeAttacksList.get(rand.nextInt(pokemonTypeAttacksList.size()));
                 pokemon.setAttack3(attack3);
-                AttackEnum attack4 = AttackEnum.values()[rand.nextInt(107) + 1];
+                pokemonTypeAttacksList.remove(attack3);
+                AttackEnum attack4 = pokemonTypeAttacksList.get(rand.nextInt(pokemonTypeAttacksList.size()));
                 pokemon.setAttack4(attack4);
 
                 pokedeck.addPokemon(this.getApplicationContext(), pokemon);
