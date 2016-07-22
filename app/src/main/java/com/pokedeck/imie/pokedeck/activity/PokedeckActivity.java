@@ -10,12 +10,11 @@ import android.widget.TextView;
 
 import com.pokedeck.imie.pokedeck.R;
 import com.pokedeck.imie.pokedeck.adapter.PokedeckAdapter;
-import com.pokedeck.imie.pokedeck.entity.Attack;
 import com.pokedeck.imie.pokedeck.entity.Pokedeck;
 import com.pokedeck.imie.pokedeck.entity.Pokemon;
+import com.pokedeck.imie.pokedeck.enumeration.AttackEnum;
 import com.pokedeck.imie.pokedeck.enumeration.PokemonTypeEnum;
 import com.pokedeck.imie.pokedeck.enumeration.TypeEnum;
-import com.pokedeck.imie.pokedeck.service.AttackService;
 import com.pokedeck.imie.pokedeck.service.ImageService;
 import com.pokedeck.imie.pokedeck.util.HorizontalListView;
 
@@ -29,11 +28,11 @@ public class PokedeckActivity extends AppCompatActivity {
     Pokemon currentPokemon = null;
     View infoView;
     Context context;
-    TextView nickname, pv, speed, attack, attackSpe, defenseSpe, defense;
-    ImageView type1, type2;
+    TextView nickname, pv, speed, attack, attackSpe, defenseSpe, defense,
+                attack1, attack2, attack3, attack4;
+    ImageView type1, type2, attack1Img, attack2Img, attack3Img, attack4Img;
     int type1ImageId, type2ImageId;
     ImageService imageService;
-    static AttackService atkService = new AttackService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,13 +55,13 @@ public class PokedeckActivity extends AppCompatActivity {
                 pokemon.setIdPokedeck(rand.nextInt(151) + 1);
 
                 //TODO change attack generation to have pokemon types attacks only
-                Attack attack1 = atkService.getAttackById(this, rand.nextInt(107) + 1);
+                AttackEnum attack1 = AttackEnum.values()[rand.nextInt(107) + 1];
                 pokemon.setAttack1(attack1);
-                Attack attack2 = atkService.getAttackById(this, rand.nextInt(107) + 1);
+                AttackEnum attack2 = AttackEnum.values()[rand.nextInt(107) + 1];
                 pokemon.setAttack2(attack2);
-                Attack attack3 = atkService.getAttackById(this, rand.nextInt(107) + 1);
+                AttackEnum attack3 = AttackEnum.values()[rand.nextInt(107) + 1];
                 pokemon.setAttack3(attack3);
-                Attack attack4 = atkService.getAttackById(this, rand.nextInt(107) + 1);
+                AttackEnum attack4 = AttackEnum.values()[rand.nextInt(107) + 1];
                 pokemon.setAttack4(attack4);
 
                 pokedeck.addPokemon(this.getApplicationContext(), pokemon);
@@ -84,6 +83,14 @@ public class PokedeckActivity extends AppCompatActivity {
         defense = (TextView) infoView.findViewById(R.id.pokedeck_pokeDef);
         type1 = (ImageView) infoView.findViewById(R.id.pokedeck_pokemon_type1);
         type2 = (ImageView) infoView.findViewById(R.id.pokedeck_pokemon_type2);
+        attack1 = (TextView) infoView.findViewById(R.id.pokedeck_pokemon_atk1_name);
+        attack2 = (TextView) infoView.findViewById(R.id.pokedeck_pokemon_atk2_name);
+        attack3 = (TextView) infoView.findViewById(R.id.pokedeck_pokemon_atk3_name);
+        attack4 = (TextView) infoView.findViewById(R.id.pokedeck_pokemon_atk4_name);
+        attack1Img = (ImageView) infoView.findViewById(R.id.pokedeck_pokemon_atk1_img);
+        attack2Img = (ImageView) infoView.findViewById(R.id.pokedeck_pokemon_atk2_img);
+        attack3Img = (ImageView) infoView.findViewById(R.id.pokedeck_pokemon_atk3_img);
+        attack4Img = (ImageView) infoView.findViewById(R.id.pokedeck_pokemon_atk4_img);
 
         horizontalListView = (HorizontalListView) findViewById(R.id.pokedeck_list);
 
@@ -121,6 +128,8 @@ public class PokedeckActivity extends AppCompatActivity {
         horizontalListView.setAdapter(pokedeckAdapter);
     }
 
+
+    //refresh info view with selected pokemon stats
     private void refreshInfo(Pokemon pokemon) {
         nickname.setText(currentPokemon.getNickname());
         pv.setText(currentPokemon.getPv().toString());
@@ -147,6 +156,22 @@ public class PokedeckActivity extends AppCompatActivity {
             } else {
                 type2.setImageResource(android.R.color.transparent);
             }
+        }
+        if(pokemon.getAttack1() != null){
+            attack1.setText(pokemon.getAttack1().name);
+            attack1Img.setImageResource(imageService.getImageIdByName(pokemon.getAttack1().type.name()));
+        }
+        if(pokemon.getAttack2() != null){
+            attack2.setText(pokemon.getAttack2().name);
+            attack2Img.setImageResource(imageService.getImageIdByName(pokemon.getAttack2().type.name()));
+        }
+        if(pokemon.getAttack3() != null){
+            attack3.setText(pokemon.getAttack3().name);
+            attack3Img.setImageResource(imageService.getImageIdByName(pokemon.getAttack3().type.name()));
+        }
+        if(pokemon.getAttack4() != null){
+            attack4.setText(pokemon.getAttack4().name);
+            attack4Img.setImageResource(imageService.getImageIdByName(pokemon.getAttack4().type.name()));
         }
     }
 }

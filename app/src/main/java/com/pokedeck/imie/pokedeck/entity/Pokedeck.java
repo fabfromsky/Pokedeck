@@ -43,7 +43,11 @@ public class Pokedeck {
                             "defense",
                             "defenseSpe",
                             "idPokedeck",
-                            "pokemonType"
+                            "pokemonType",
+                            "attack1",
+                            "attack2",
+                            "attack3",
+                            "attack4"
                     },
                     null,
                     null,
@@ -92,7 +96,11 @@ public class Pokedeck {
                             "defense",
                             "defenseSpe",
                             "idPokedeck",
-                            "pokemonType"
+                            "pokemonType",
+                            "attack1",
+                            "attack2",
+                            "attack3",
+                            "attack4"
                     },
                     where,
                     null,
@@ -128,6 +136,10 @@ public class Pokedeck {
         values.put("defenseSpe", pokemon.getDefenseSpe());
         values.put("idPokedeck", pokemon.getIdPokedeck());
         values.put("pokemonType", pokemon.getPokemonType().ordinal());
+        values.put("attack1", pokemon.getAttack1().ordinal());
+        values.put("attack2", pokemon.getAttack2().ordinal());
+        values.put("attack3", pokemon.getAttack3().ordinal());
+        values.put("attack4", pokemon.getAttack4().ordinal());
 
         LocalSQLiteOpenHelper helper = new LocalSQLiteOpenHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();

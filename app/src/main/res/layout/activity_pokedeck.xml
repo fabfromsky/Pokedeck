@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.pokedeck.imie.pokedeck.activity.PokedeckActivity">
 
     <ImageView
@@ -28,6 +29,7 @@
 
 
     <LinearLayout
+        android:id="@+id/pokedeck_pokemon_infos"
         android:layout_width="match_parent"
         android:layout_height="130dp"
         android:background="#a01e338d"
@@ -40,7 +42,7 @@
         android:layout_marginBottom="5dp">
 
         <TableLayout
-            android:id="@+id/pokedeck_pokemon_infos"
+            android:id="@+id/pokedeck_pokemon_stats"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
@@ -60,13 +62,15 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:textAlignment="textStart"
-                    android:layout_gravity="left"
-                    android:layout_span="2" />
+                    android:layout_gravity="start"/>
 
                 <LinearLayout
                     android:layout_height="match_parent"
                     android:layout_width="match_parent"
-                    android:layout_column="2">
+                    android:layout_column="1"
+                    android:gravity="end"
+                    android:textAlignment="textEnd"
+                    android:layout_gravity="right">
 
                     <ImageView
                         android:layout_width="20dp"
@@ -88,6 +92,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_column="0"
                     android:text="PV :"
                     android:id="@+id/pokedeck_pvLabel"
                     android:layout_below="@+id/pokedeck_pokemonName"
@@ -96,16 +101,17 @@
                     android:textColor="#ffffff"
                     android:textSize="11sp" />
                 <TextView
-                    android:layout_width="80dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:text="New Text"
                     android:id="@+id/pokedeck_pokePv"
                     android:textColor="#ffffff"
-                    android:textAlignment="textEnd"
                     android:layout_below="@+id/pokedeck_pokemonName"
-                    android:gravity="end"
                     android:textIsSelectable="false"
                     android:textSize="11sp"
                     android:layout_toLeftOf="@+id/pokedeck_pokeAtqSpe"
+                    android:gravity="right"
                     android:layout_gravity="right" />
             </TableRow>
 
@@ -114,6 +120,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_column="0"
                     android:text="Atq. :"
                     android:id="@+id/pokedeck_atkLabel"
                     android:layout_below="@+id/pokedeck_pvLabel"
@@ -122,17 +129,18 @@
                     android:textColor="#ffffff"
                     android:textSize="11sp" />
                 <TextView
-                    android:layout_width="80dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:text="New Text"
                     android:id="@+id/pokedeck_pokeAtq"
                     android:textColor="#ffffff"
                     android:layout_below="@+id/pokedeck_pokePv"
-                    android:textAlignment="textEnd"
-                    android:gravity="end"
                     android:textIsSelectable="false"
                     android:textSize="11sp"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
+                    android:gravity="right"
                     android:layout_gravity="right" />
             </TableRow>
 
@@ -141,6 +149,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_column="0"
                     android:text="Atq. Spe :"
                     android:id="@+id/pokedeck_atqSpeLabel"
                     android:layout_below="@+id/pokedeck_atkLabel"
@@ -149,16 +158,17 @@
                     android:textColor="#ffffff"
                     android:textSize="11sp" />
                 <TextView
-                    android:layout_width="80dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:text="New Text"
                     android:id="@+id/pokedeck_pokeAtqSpe"
                     android:textColor="#ffffff"
-                    android:textAlignment="textEnd"
                     android:layout_below="@+id/pokedeck_pokeAtq"
-                    android:gravity="end"
                     android:textIsSelectable="false"
                     android:textSize="11sp"
                     android:layout_toLeftOf="@+id/pokedeck_pokePv"
+                    android:gravity="right"
                     android:layout_gravity="right" />
             </TableRow>
 
@@ -167,6 +177,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_column="0"
                     android:text="Def. :"
                     android:id="@+id/pokedeck_defLabel"
                     android:layout_below="@+id/pokedeck_atqSpeLabel"
@@ -175,16 +186,17 @@
                     android:textColor="#ffffff"
                     android:textSize="11sp" />
                 <TextView
-                    android:layout_width="80dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:text="New Text"
                     android:id="@+id/pokedeck_pokeDef"
                     android:textColor="#ffffff"
-                    android:textAlignment="textEnd"
                     android:layout_above="@+id/pokedeck_defSpeLabel"
-                    android:gravity="end"
                     android:textIsSelectable="false"
                     android:textSize="11sp"
                     android:layout_toLeftOf="@+id/pokedeck_pokeAtqSpe"
+                    android:gravity="right"
                     android:layout_gravity="right" />
             </TableRow>
 
@@ -193,6 +205,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_column="0"
                     android:text="Def. Spe :"
                     android:id="@+id/pokedeck_defSpeLabel"
                     android:layout_below="@+id/pokedeck_defLabel"
@@ -201,16 +214,17 @@
                     android:textColor="#ffffff"
                     android:textSize="11sp" />
                 <TextView
-                    android:layout_width="80dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:text="New Text"
                     android:id="@+id/pokedeck_pokeDefSpe"
                     android:textColor="#ffffff"
-                    android:textAlignment="textEnd"
                     android:layout_below="@+id/pokedeck_pokeDef"
-                    android:gravity="end"
                     android:textIsSelectable="false"
                     android:textSize="11sp"
                     android:layout_toLeftOf="@+id/pokedeck_pokeDef"
+                    android:gravity="right"
                     android:layout_gravity="right" />
             </TableRow>
 
@@ -219,6 +233,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_column="0"
                     android:text="Speed :"
                     android:id="@+id/pokedeck_speedLabel"
                     android:textColor="#ffffff"
@@ -227,20 +242,176 @@
                     android:layout_alignStart="@+id/pokedeck_defSpeLabel"
                     android:textSize="11sp" />
                 <TextView
-                    android:layout_width="80dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:text="New Text"
                     android:id="@+id/pokedeck_pokeSpeed"
                     android:textColor="#ffffff"
-                    android:textAlignment="textEnd"
                     android:layout_below="@+id/pokedeck_pokeDefSpe"
-                    android:gravity="end"
                     android:textIsSelectable="false"
                     android:textSize="11sp"
                     android:layout_toLeftOf="@+id/pokedeck_pokeDefSpe"
+                    android:gravity="right"
                     android:layout_gravity="right" />
             </TableRow>
 
         </TableLayout>
+
+        <RelativeLayout
+            android:id="@+id/pokedeck_pokemon_attacks"
+            android:layout_width="361dp"
+            android:layout_height="match_parent"
+            android:padding="20dp"
+            android:layout_marginLeft="10dp">
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/pokedeck_pokemon_atk1"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                app:cardCornerRadius="5dp"
+                android:paddingLeft="5dp"
+                android:paddingTop="10dp"
+                android:paddingRight="5dp"
+                android:layout_marginLeft="20dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:id="@+id/pokedeck_pokemon_atk1_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="atk name"
+                        android:foregroundGravity="center_vertical"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true" />
+
+                    <ImageView
+                        android:id="@+id/pokedeck_pokemon_atk1_img"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/bug" />
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/pokedeck_pokemon_atk2"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                app:cardCornerRadius="5dp"
+                android:paddingLeft="5dp"
+                android:paddingTop="10dp"
+                android:paddingRight="5dp"
+                android:layout_alignTop="@+id/pokedeck_pokemon_atk1"
+                android:layout_toRightOf="@+id/pokedeck_pokemon_atk1"
+                android:layout_toEndOf="@+id/pokedeck_pokemon_atk1"
+                android:layout_marginLeft="10dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:id="@+id/pokedeck_pokemon_atk2_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="atk name"
+                        android:foregroundGravity="center_vertical"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true" />
+
+                    <ImageView
+                        android:id="@+id/pokedeck_pokemon_atk2_img"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/bug" />
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/pokedeck_pokemon_atk3"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                app:cardCornerRadius="5dp"
+                android:paddingLeft="5dp"
+                android:paddingTop="10dp"
+                android:paddingRight="5dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignLeft="@+id/pokedeck_pokemon_atk1"
+                android:layout_alignStart="@+id/pokedeck_pokemon_atk1">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:id="@+id/pokedeck_pokemon_atk3_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="atk name"
+                        android:foregroundGravity="center_vertical"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true" />
+
+                    <ImageView
+                        android:id="@+id/pokedeck_pokemon_atk3_img"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/bug" />
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/pokedeck_pokemon_atk4"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                app:cardCornerRadius="5dp"
+                android:paddingLeft="5dp"
+                android:paddingTop="10dp"
+                android:paddingRight="5dp"
+                android:layout_alignTop="@+id/pokedeck_pokemon_atk3"
+                android:layout_alignLeft="@+id/pokedeck_pokemon_atk2"
+                android:layout_alignStart="@+id/pokedeck_pokemon_atk2">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:id="@+id/pokedeck_pokemon_atk4_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="atk name"
+                        android:foregroundGravity="center_vertical"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true" />
+
+                    <ImageView
+                        android:id="@+id/pokedeck_pokemon_atk4_img"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/bug" />
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+
+
+        </RelativeLayout>
+
 
     </LinearLayout>
 
