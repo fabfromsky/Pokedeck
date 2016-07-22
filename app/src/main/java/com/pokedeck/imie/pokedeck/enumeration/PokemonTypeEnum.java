@@ -428,12 +428,12 @@ public enum PokemonTypeEnum {
         //PSYKOKWAK
         PSYKOKWAK.name = "PSYKOKWAK";
         PSYKOKWAK.idPokedex = 54;
-        PSYKOKWAK.types = new TypeEnum[]{TypeEnum.WATER};
+        PSYKOKWAK.types = new TypeEnum[]{TypeEnum.WATER, TypeEnum.PSYCHIC};
 
         //AKWAKWAK
         AKWAKWAK.name = "AKWAKWAK";
         AKWAKWAK.idPokedex = 55;
-        AKWAKWAK.types = new TypeEnum[]{TypeEnum.WATER};
+        AKWAKWAK.types = new TypeEnum[]{TypeEnum.WATER, TypeEnum.PSYCHIC};
 
         //FEROSINGE
         FEROSINGE.name = "FEROSINGE";
