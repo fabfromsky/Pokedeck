@@ -21,7 +21,7 @@ public enum AttackEnum {
     SignalBeam,
     BugBite,
     Infestation,
-    BuBuzz,
+    BugBuzz,
     Bite,
     Crunch,
     NightSlash,
@@ -186,9 +186,9 @@ public enum AttackEnum {
         Infestation.power = 20;
         Infestation.type =  TypeEnum.BUG;
 
-        BuBuzz.name = "Bu Buzz";
-        BuBuzz.power = 90;
-        BuBuzz.type = TypeEnum.BUG;
+        BugBuzz.name = "Bug Buzz";
+        BugBuzz.power = 90;
+        BugBuzz.type = TypeEnum.BUG;
 
         Bite.name =  "Bite";
         Bite.power = 60;
