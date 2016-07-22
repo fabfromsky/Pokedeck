@@ -51,13 +51,36 @@
                 <TextView
                     android:layout_width="140dp"
                     android:layout_height="wrap_content"
+                    android:layout_column="0"
                     android:text="New Text"
                     android:id="@+id/pokedeck_pokemonName"
                     android:textSize="16dp"
                     android:textColor="#ffffff"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />
+                    android:layout_alignParentStart="true"
+                    android:textAlignment="textStart"
+                    android:layout_gravity="left"
+                    android:layout_span="2" />
+
+                <LinearLayout
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_column="2">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent"
+                        android:id="@+id/pokedeck_pokemon_type2"/>
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent"
+                        android:id="@+id/pokedeck_pokemon_type1"
+                        android:layout_marginLeft="5dp" />
+                </LinearLayout>
+
+
             </TableRow>
 
             <TableRow

@@ -7,8 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.pokedeck.imie.pokedeck.enumeration.PokemonTypeEnum;
 import com.pokedeck.imie.pokedeck.helper.LocalSQLiteOpenHelper;
-
-import java.util.ArrayList;
+import com.pokedeck.imie.pokedeck.service.AttackService;
 
 public class Pokemon {
 
@@ -30,14 +29,23 @@ public class Pokemon {
 
     private Integer idPokedeck;
 
-    private ArrayList<Attack> attacks;
+    private Attack attack1;
+
+    private Attack attack2;
+
+    private Attack attack3;
+
+    private Attack attack4;
 
     private PokemonTypeEnum pokemonType;
 
     public Pokemon() {
     }
 
-    public Pokemon(Long id, String nickname, Integer pv, Integer attack, Integer attackSpe, Integer defense, Integer defenseSpe, Integer speed, Integer idPokedeck, ArrayList<Attack> attacks, PokemonTypeEnum pokemonType) {
+    public Pokemon(Long id, String nickname, Integer pv, Integer attack, Integer attackSpe,
+                   Integer defense, Integer defenseSpe, Integer speed, Integer idPokedeck,
+                   Attack attack1, Attack attack2, Attack attack3, Attack attack4,
+                   PokemonTypeEnum pokemonType) {
         this.id = id;
         this.nickname = nickname;
         this.pv = pv;
@@ -47,11 +55,15 @@ public class Pokemon {
         this.defenseSpe = defenseSpe;
         this.speed = speed;
         this.idPokedeck = idPokedeck;
-        this.attacks = attacks;
+        this.attack1 = attack1;
+        this.attack2 = attack2;
+        this.attack3 = attack3;
+        this.attack4 = attack4;
         this.pokemonType = pokemonType;
     }
 
     public Pokemon(Cursor cursor) {
+        AttackService atkService = new AttackService();
         this.id = cursor.getLong(cursor.getColumnIndex("id"));
         this.nickname = cursor.getString(cursor.getColumnIndex("nickname"));
         this.pv = cursor.getInt(cursor.getColumnIndex("pv"));
@@ -61,6 +73,7 @@ public class Pokemon {
         this.defenseSpe = cursor.getInt(cursor.getColumnIndex("defenseSpe"));
         this.speed = cursor.getInt(cursor.getColumnIndex("speed"));
         this.idPokedeck = cursor.getInt(cursor.getColumnIndex("idPokedeck"));
+        this.pokemonType = PokemonTypeEnum.values()[cursor.getInt(cursor.getColumnIndex("pokemonType"))];
     }
 
     public void insert(Context context) {
@@ -73,6 +86,11 @@ public class Pokemon {
         values.put("defenseSpe", this.defenseSpe);
         values.put("speed", this.speed);
         values.put("idPokedeck", this.idPokedeck);
+        /*values.put("attack1", this.attack1.getId());
+        values.put("attack2", this.attack2.getId());
+        values.put("attack3", this.attack3.getId());
+        values.put("attack4", this.attack4.getId());*/
+        values.put("pokemonType", this.pokemonType.ordinal());
 
         LocalSQLiteOpenHelper helper = new LocalSQLiteOpenHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
@@ -164,12 +182,36 @@ public class Pokemon {
         this.idPokedeck = idPokedeck;
     }
 
-    public ArrayList<Attack> getAttacks() {
-        return attacks;
+    public Attack getAttack1() {
+        return attack1;
     }
 
-    public void setAttacks(ArrayList<Attack> attacks) {
-        this.attacks = attacks;
+    public void setAttack1(Attack attack1) {
+        this.attack1 = attack1;
+    }
+
+    public Attack getAttack2() {
+        return attack2;
+    }
+
+    public void setAttack2(Attack attack2) {
+        this.attack2 = attack2;
+    }
+
+    public Attack getAttack3() {
+        return attack3;
+    }
+
+    public void setAttack3(Attack attack3) {
+        this.attack3 = attack3;
+    }
+
+    public Attack getAttack4() {
+        return attack4;
+    }
+
+    public void setAttack4(Attack attack4) {
+        this.attack4 = attack4;
     }
 
     /**

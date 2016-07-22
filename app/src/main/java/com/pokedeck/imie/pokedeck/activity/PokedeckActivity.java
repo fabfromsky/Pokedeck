@@ -1,10 +1,8 @@
 package com.pokedeck.imie.pokedeck.activity;
 
 import android.content.Context;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -12,9 +10,13 @@ import android.widget.TextView;
 
 import com.pokedeck.imie.pokedeck.R;
 import com.pokedeck.imie.pokedeck.adapter.PokedeckAdapter;
+import com.pokedeck.imie.pokedeck.entity.Attack;
 import com.pokedeck.imie.pokedeck.entity.Pokedeck;
 import com.pokedeck.imie.pokedeck.entity.Pokemon;
 import com.pokedeck.imie.pokedeck.enumeration.PokemonTypeEnum;
+import com.pokedeck.imie.pokedeck.enumeration.TypeEnum;
+import com.pokedeck.imie.pokedeck.service.AttackService;
+import com.pokedeck.imie.pokedeck.service.ImageService;
 import com.pokedeck.imie.pokedeck.util.HorizontalListView;
 
 import java.util.ArrayList;
@@ -27,13 +29,11 @@ public class PokedeckActivity extends AppCompatActivity {
     Pokemon currentPokemon = null;
     View infoView;
     Context context;
-    TextView nickname;
-    TextView pv;
-    TextView speed;
-    TextView attack;
-    TextView attackSpe;
-    TextView defenseSpe;
-    TextView defense;
+    TextView nickname, pv, speed, attack, attackSpe, defenseSpe, defense;
+    ImageView type1, type2;
+    int type1ImageId, type2ImageId;
+    ImageService imageService;
+    static AttackService atkService = new AttackService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +55,16 @@ public class PokedeckActivity extends AppCompatActivity {
                 pokemon.setDefenseSpe(pokemon.getDefense() + rand.nextInt(100));
                 pokemon.setIdPokedeck(rand.nextInt(151) + 1);
 
+                //TODO change attack generation to have pokemon types attacks only
+                Attack attack1 = atkService.getAttackById(this, rand.nextInt(107) + 1);
+                pokemon.setAttack1(attack1);
+                Attack attack2 = atkService.getAttackById(this, rand.nextInt(107) + 1);
+                pokemon.setAttack2(attack2);
+                Attack attack3 = atkService.getAttackById(this, rand.nextInt(107) + 1);
+                pokemon.setAttack3(attack3);
+                Attack attack4 = atkService.getAttackById(this, rand.nextInt(107) + 1);
+                pokemon.setAttack4(attack4);
+
                 pokedeck.addPokemon(this.getApplicationContext(), pokemon);
             }
         }
@@ -72,6 +82,8 @@ public class PokedeckActivity extends AppCompatActivity {
         attackSpe = (TextView) infoView.findViewById(R.id.pokedeck_pokeAtqSpe);
         defenseSpe = (TextView) infoView.findViewById(R.id.pokedeck_pokeDefSpe);
         defense = (TextView) infoView.findViewById(R.id.pokedeck_pokeDef);
+        type1 = (ImageView) infoView.findViewById(R.id.pokedeck_pokemon_type1);
+        type2 = (ImageView) infoView.findViewById(R.id.pokedeck_pokemon_type2);
 
         horizontalListView = (HorizontalListView) findViewById(R.id.pokedeck_list);
 
@@ -117,5 +129,24 @@ public class PokedeckActivity extends AppCompatActivity {
         attackSpe.setText(currentPokemon.getAttackSpe().toString());
         defense.setText(currentPokemon.getDefense().toString());
         defenseSpe.setText(currentPokemon.getDefenseSpe().toString());
+        imageService = new ImageService();
+        if(pokemon.getPokemonType() != null){
+            PokemonTypeEnum pokeType = pokemon.getPokemonType();
+
+            if(pokemon.getPokemonType().types.length > 0){
+                TypeEnum typeE1 = pokemon.getPokemonType().types[0];
+                type1ImageId = imageService.getImageIdByName(typeE1.name());
+                type1.setImageResource(type1ImageId);
+            }else {
+                type1.setImageResource(android.R.color.transparent);
+            }
+            if(pokemon.getPokemonType().types.length > 1){
+                TypeEnum typeE2 = pokemon.getPokemonType().types[1];
+                type2ImageId = imageService.getImageIdByName(typeE2.name());
+                type2.setImageResource(type2ImageId);
+            } else {
+                type2.setImageResource(android.R.color.transparent);
+            }
+        }
     }
 }

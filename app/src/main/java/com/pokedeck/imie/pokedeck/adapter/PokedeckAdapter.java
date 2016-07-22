@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.pokedeck.imie.pokedeck.R;
 import com.pokedeck.imie.pokedeck.entity.Pokemon;
+import com.pokedeck.imie.pokedeck.service.ImageService;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -21,6 +22,7 @@ import java.util.List;
 public class PokedeckAdapter extends ArrayAdapter<Pokemon> {
 
     Context context;
+    ImageService imageService;
 
     public PokedeckAdapter(Context context, List<Pokemon> listPokemon) {
         super(context, -1, listPokemon);
@@ -45,15 +47,10 @@ public class PokedeckAdapter extends ArrayAdapter<Pokemon> {
         view.setTag(pokemon);
 
         ImageView pokemonImg = (ImageView) view.findViewById(R.id.listitem_pokedeck_image);
-        try {
-            Class res = R.drawable.class;
-            Field field = res.getField(pokemon.getNickname().toLowerCase());
-            int drawableId = field.getInt(null);
-            pokemonImg.setImageResource(drawableId);
-        }
-        catch (Exception e) {
-            Log.e("Image source error", "Failed to get drawable id.", e);
-        };
+        String imageName = pokemon.getNickname();
+        imageService = new ImageService();
+        int imageId = imageService.getImageIdByName(imageName);
+        pokemonImg.setImageResource(imageId);
         return view;
     }
 }
