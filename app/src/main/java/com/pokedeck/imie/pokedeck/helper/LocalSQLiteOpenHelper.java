@@ -19,14 +19,20 @@ public class LocalSQLiteOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sqlFillTable = "CREATE TABLE pokemon (id INTEGER PRIMARY KEY," +
-                "nickname TEXT, pv NUMERIC" +
-                ");";
+        String sqlCreatePokemonTable = "CREATE TABLE pokemon (id INTEGER PRIMARY KEY," +
+                "nickname TEXT, pv NUMERIC, speed NUMERIC, attack NUMERIC, attackSpe NUMERIC," +
+                "defense NUMERIC, defenseSpe NUMERIC, idPokedeck NUMERIC, pokemonType NUMERIC," +
+                "attack1 NUMERIC, attack2 NUMERIC, attack3 NUMERIC, attack4 NUMERIC);";
+
+        String sqlCreateAttackTable = "CREATE TABLE attack (id INTEGER PRIMARY KEY," +
+                "name TEXT, power NUMERIC, type NUMERIC);";
+
 
         db.beginTransaction();
 
         try {
-            db.execSQL(sqlFillTable);
+            db.execSQL(sqlCreatePokemonTable);
+            db.execSQL(sqlCreateAttackTable);
             db.setTransactionSuccessful();
         } catch (Exception e) {
             Log.e("LocalSQLiteOpenHelper", e.getMessage());

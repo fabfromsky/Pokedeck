@@ -1,25 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="107dp"
+    android:layout_height="148dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/listitem_pokedeck_nickname"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+    <FrameLayout
+        android:layout_width="113dp"
+        android:layout_height="154dp"
+        android:layout_marginLeft="2dp"
+        android:textAlignment="center"
+        android:layout_marginRight="2dp">
 
-    <TextView
-        android:id="@+id/listitem_pokedeck_pv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        <ImageView
+            android:id="@+id/listitem_card_bg"
+            android:layout_width="113dp"
+            android:layout_height="154dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/cardshadow"
+            android:layout_gravity="center" />
+
+        <android.support.v7.widget.CardView
+            android:layout_width="101dp"
+            android:layout_height="140dp"
+            android:layout_gravity="center"
+            app:cardCornerRadius="13.5dp">
+
+            <ImageView
+                android:id="@+id/listitem_pokedeck_image"
+                android:layout_width="101dp"
+                android:layout_height="140dp"
+                android:contentDescription="pokemon image"
+                android:layout_gravity="center" />
+
+        </android.support.v7.widget.CardView>
+
+
+    </FrameLayout>
+
 
 </LinearLayout>
