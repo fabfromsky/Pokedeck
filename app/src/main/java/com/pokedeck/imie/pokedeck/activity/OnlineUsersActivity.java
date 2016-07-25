@@ -22,11 +22,11 @@ public class OnlineUsersActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // As it's the main activity it's here we start BackgroundMusicService
+        // As it's the main activity it's here we start BackgroundMusicService.
         Intent svc = new Intent(this, BackgroundMusicService.class);
         startService(svc);
 
-        // Check if user has already logged in
+        // Check if user has already logged in.
         isLogged = loginCheck();
 
         super.onCreate(savedInstanceState);
@@ -41,13 +41,13 @@ public class OnlineUsersActivity extends AppCompatActivity {
         });
 
         Button goPokedeckButton = (Button) findViewById(R.id.goPokedeck);
+        assert goPokedeckButton != null;
         goPokedeckButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 goToPokedeck();
             }
         });
-
     }
 
     private void goToPokedeck() {
