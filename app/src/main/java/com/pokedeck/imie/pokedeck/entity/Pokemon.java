@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class Pokemon extends PokemonType {
 
-    private long id;
+    private Long id;
 
     private String nickname;
 
@@ -31,7 +31,7 @@ public class Pokemon extends PokemonType {
     public Pokemon() {
     }
 
-    public Pokemon(Integer id, String nickname, Integer pv, Float coeffAttack, Float coeffDefense, Integer idPokedeck, ArrayList<Attack> attacks) {
+    public Pokemon(Long id, String nickname, Integer pv, Float coeffAttack, Float coeffDefense, Integer idPokedeck, ArrayList<Attack> attacks) {
         this.id = id;
         this.nickname = nickname;
         this.pv = pv;
@@ -62,7 +62,7 @@ public class Pokemon extends PokemonType {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(long id) {
         this.id = id;
     }
 

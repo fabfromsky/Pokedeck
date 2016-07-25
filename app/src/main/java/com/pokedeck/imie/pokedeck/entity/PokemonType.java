@@ -2,7 +2,7 @@ package com.pokedeck.imie.pokedeck.entity;
 
 public class PokemonType {
 
-    private Integer id;
+    private Long id;
 
     private String name;
 
@@ -27,7 +27,7 @@ public class PokemonType {
     public PokemonType() {
     }
 
-    public PokemonType(Integer id, String name, Integer speed, Float attack, Float attackSpe, Float defense, Float defenseSpe, Integer pvMax, Integer pvMin, Integer idPokedex, Type type) {
+    public PokemonType(Long id, String name, Integer speed, Float attack, Float attackSpe, Float defense, Float defenseSpe, Integer pvMax, Integer pvMin, Integer idPokedex, Type type) {
         this.id = id;
         this.name = name;
         this.speed = speed;
@@ -45,7 +45,7 @@ public class PokemonType {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(long id) {
         this.id = id;
     }
 

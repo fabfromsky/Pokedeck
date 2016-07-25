@@ -10,45 +10,53 @@
     tools:context="com.pokedeck.imie.pokedeck.activity.RegisterActivity">
 
     <EditText
-        android:layout_width="wrap_content"
+        android:id="@+id/editTextRegisterName"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editTextRegisterEmail"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:text="Email" />
+        android:hint="@string/name"
+        android:inputType="textPersonName" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:id="@+id/editTextRegisterEmail"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextRegisterName"
+        android:layout_centerHorizontal="true"
+        android:hint="@string/prompt_email"
+        android:inputType="textEmailAddress" />
+
+    <EditText
         android:id="@+id/editTextRegisterPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/editTextRegisterEmail"
         android:layout_centerHorizontal="true"
-        android:text="Password" />
+        android:hint="@string/prompt_password"
+        android:inputType="textPassword" />
 
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/editTextRegisterConfirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/editTextRegisterPassword"
         android:layout_centerHorizontal="true"
-        android:text="Confirm" />
+        android:hint="@string/confirm_password"
+        android:inputType="textPassword" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cancel"
-        android:id="@+id/buttonRegisterCancel"
-        android:layout_below="@+id/editTextRegisterConfirm"
-        android:layout_toLeftOf="@+id/editTextRegisterPassword"
-        android:layout_toStartOf="@+id/editTextRegisterPassword"
-        android:layout_marginTop="55dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Proceed"
         android:id="@+id/buttonRegisterProceed"
-        android:layout_alignBottom="@+id/buttonRegisterCancel"
-        android:layout_toRightOf="@+id/editTextRegisterPassword"
-        android:layout_toEndOf="@+id/editTextRegisterPassword" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextRegisterConfirm"
+        android:text="@string/proceed" />
+
+    <Button
+        android:id="@+id/buttonRegisterCancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonRegisterProceed"
+        android:text="@string/cancel" />
+
+
 </RelativeLayout>
