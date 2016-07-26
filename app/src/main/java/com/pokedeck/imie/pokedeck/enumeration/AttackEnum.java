@@ -551,5 +551,4 @@ public enum AttackEnum {
         AquaJet.type = TypeEnum.WATER;
 
     }
-
 }

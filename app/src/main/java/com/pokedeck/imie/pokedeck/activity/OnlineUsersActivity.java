@@ -16,7 +16,6 @@ import com.pokedeck.imie.pokedeck.service.BackgroundMusicService;
 
 public class OnlineUsersActivity extends AppCompatActivity {
 
-    public static final String MEDIA_PATH = "";
     ListView listView;
     boolean isLogged;
 
@@ -41,6 +40,7 @@ public class OnlineUsersActivity extends AppCompatActivity {
         });
 
         Button goPokedeckButton = (Button) findViewById(R.id.goPokedeck);
+        assert goPokedeckButton != null;
         goPokedeckButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,6 +50,15 @@ public class OnlineUsersActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        if (isLogged)
+            super.onResume();
+        else
+            loginCheck();
+            super.onResume();
+    }
+
     private void goToPokedeck() {
         Intent intent = new Intent(getApplicationContext(), PokedeckActivity.class);
         startActivity(intent);
@@ -57,6 +66,7 @@ public class OnlineUsersActivity extends AppCompatActivity {
 
     private boolean loginCheck() {
         SharedPreferences sharedPreferences = getSharedPreferences("com.imie.pokedeck.prefs", Context.MODE_PRIVATE);
+
         if (!sharedPreferences.contains("mEmail")) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);

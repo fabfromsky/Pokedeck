@@ -1,7 +1,5 @@
 package com.pokedeck.imie.pokedeck.enumeration;
 
-import com.pokedeck.imie.pokedeck.enumeration.TypeEnum;
-
 public enum PokemonTypeEnum {
     BULBIZARRE,
     HERBIZARRE,

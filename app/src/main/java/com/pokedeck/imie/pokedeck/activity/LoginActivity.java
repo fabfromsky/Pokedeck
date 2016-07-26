@@ -90,8 +90,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
+            // There was an error; don't attempt login and focus the first form field with an error.
             focusView.requestFocus();
         } else {
             performUserLoginAttempt(email, password);
@@ -108,7 +107,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void performUserLoginAttempt(final String email, final String password) {
         mProgressView.setVisibility(View.VISIBLE);
-        mProgressView.animate().setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime)).alpha(1).setListener(new AnimatorListenerAdapter() {
+        mProgressView.animate().setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime))
+                .alpha(1).setListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 mProgressView.setVisibility(View.VISIBLE);
@@ -122,7 +122,8 @@ public class LoginActivity extends AppCompatActivity {
         JSONObject jsonRequest = null;
 
         try {
-            String jsonString = "{\"security_login\": {\"username\": \"" + email + "\",\"plainPassword\": \"" + password + "\"}}";
+            String jsonString = "{\"security_login\": {\"username\": \"" + email
+                    + "\",\"plainPassword\": \"" + password + "\"}}";
 
             jsonRequest = new JSONObject(jsonString);
 
@@ -131,7 +132,7 @@ public class LoginActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        // We send the reques and fetch the response
+        // We send the reques and fetch the response.
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.POST, url, jsonRequest, new Response.Listener<JSONObject>() {
                     @Override
@@ -161,14 +162,15 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         mProgressView.setVisibility(View.GONE);
-                        mProgressView.animate().setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime)).alpha(0).setListener(new AnimatorListenerAdapter() {
+                        mProgressView.animate().setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime))
+                                .alpha(0).setListener(new AnimatorListenerAdapter() {
                             @Override
                             public void onAnimationEnd(Animator animation) {
                                 mProgressView.setVisibility(View.GONE);
                             }
                         });
 
-                        // Case when it fails
+                        // Case when it fails.
                         Log.e("RegisterActivity", "onErrorResponse - Error: " + error.toString());
 
                         Toast toast = Toast.makeText(getApplicationContext(), "Une erreur est survenue", Toast.LENGTH_LONG);

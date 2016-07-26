@@ -21,9 +21,9 @@ public enum TypeEnum {
     FAIRY,
     NONE;
 
-    public TypeEnum[] weak, strong, noEffect; //TODO fill noEffect
+    public TypeEnum[] weak, strong, noEffect;
 
-    static{
+    static {
         //Normal
         NORMAL.weak = new TypeEnum[]{FIGHTING};
         NORMAL.strong = new TypeEnum[]{};

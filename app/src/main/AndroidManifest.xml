@@ -16,18 +16,21 @@
         android:supportsRtl="true"
         android:theme="@style/FullscreenTheme">
 
-        <activity android:name=".activity.PokedeckActivity"
-            android:screenOrientation="landscape"/>
+        <activity
+            android:name=".activity.PokedeckActivity"
+            android:screenOrientation="landscape" />
 
         <activity
             android:name=".activity.LoginActivity"
             android:label="@string/app_name"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape" />
 
-        <activity android:name=".activity.RegisterActivity"
-            android:screenOrientation="landscape"/>
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:screenOrientation="landscape" />
 
-        <activity android:name=".activity.OnlineUsersActivity"
+        <activity
+            android:name=".activity.OnlineUsersActivity"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,16 +38,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--
-     ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
-        -->
+
+        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+        App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".activity.FightActivity"
-            android:screenOrientation="landscape"/>
+        <activity
+            android:name=".activity.FightActivity"
+            android:screenOrientation="landscape" />
 
         <service
             android:name=".service.BackgroundMusicService"
