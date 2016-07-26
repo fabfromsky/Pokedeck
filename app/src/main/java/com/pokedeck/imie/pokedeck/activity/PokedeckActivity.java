@@ -1,6 +1,5 @@
 package com.pokedeck.imie.pokedeck.activity;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -23,25 +22,18 @@ import java.util.Random;
 
 public class PokedeckActivity extends AppCompatActivity {
 
-    HorizontalListView horizontalListView;
-    ArrayList<Pokemon> pokemons;
-    Pokemon currentPokemon = null;
-    View infoView;
-    Context context;
-    TextView nickname, pv, speed, attack, attackSpe, defenseSpe, defense,
+    private HorizontalListView horizontalListView;
+    private Pokemon currentPokemon = null;
+    private TextView nickname, pv, speed, attack, attackSpe, defenseSpe, defense,
             attack1, attack2, attack3, attack4;
-    ImageView type1, type2, attack1Img, attack2Img, attack3Img, attack4Img;
-    int type1ImageId, type2ImageId;
-    ImageService imageService;
+    private ImageView type1, type2, attack1Img, attack2Img, attack3Img, attack4Img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Pokedeck pokedeck = new Pokedeck();
-
         if (Pokedeck.getPokemons(this.getApplicationContext()).size() == 0) {
             // Creates a pokedeck with 20 random pokemons
             Random rand = new Random();
-
             for (int i = 0; i <= 19; i++) {
                 Pokemon pokemon = new Pokemon();
                 PokemonTypeEnum pokeType = PokemonTypeEnum.values()[rand.nextInt(PokemonTypeEnum.values().length)];
@@ -59,6 +51,7 @@ public class PokedeckActivity extends AppCompatActivity {
                 // Random attacks from pokemon types attacks
                 // we first define the pokemon types attacks in a list.
                 ArrayList<AttackEnum> pokemonTypeAttacksList = new ArrayList<>();
+
                 for (int j = 0; j < AttackEnum.values().length; j++) {
                     if (AttackEnum.values()[j].type == pokemon.getPokemonType().types[0] ||
                             (pokemon.getPokemonType().types.length > 1 &&
@@ -88,13 +81,12 @@ public class PokedeckActivity extends AppCompatActivity {
             }
         }
 
-        context = this;
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pokedeck);
 
-        infoView = findViewById(R.id.pokedeck_pokemon_infos);
+        View infoView = findViewById(R.id.pokedeck_pokemon_infos);
 
+        assert infoView != null;
         nickname = (TextView) infoView.findViewById(R.id.pokedeck_pokemonName);
         pv = (TextView) infoView.findViewById(R.id.pokedeck_pokePv);
         speed = (TextView) infoView.findViewById(R.id.pokedeck_pokeSpeed);
@@ -102,15 +94,12 @@ public class PokedeckActivity extends AppCompatActivity {
         attackSpe = (TextView) infoView.findViewById(R.id.pokedeck_pokeAtqSpe);
         defenseSpe = (TextView) infoView.findViewById(R.id.pokedeck_pokeDefSpe);
         defense = (TextView) infoView.findViewById(R.id.pokedeck_pokeDef);
-
         type1 = (ImageView) infoView.findViewById(R.id.pokedeck_pokemon_type1);
         type2 = (ImageView) infoView.findViewById(R.id.pokedeck_pokemon_type2);
-
         attack1 = (TextView) infoView.findViewById(R.id.pokedeck_pokemon_atk1_name);
         attack2 = (TextView) infoView.findViewById(R.id.pokedeck_pokemon_atk2_name);
         attack3 = (TextView) infoView.findViewById(R.id.pokedeck_pokemon_atk3_name);
         attack4 = (TextView) infoView.findViewById(R.id.pokedeck_pokemon_atk4_name);
-
         attack1Img = (ImageView) infoView.findViewById(R.id.pokedeck_pokemon_atk1_img);
         attack2Img = (ImageView) infoView.findViewById(R.id.pokedeck_pokemon_atk2_img);
         attack3Img = (ImageView) infoView.findViewById(R.id.pokedeck_pokemon_atk3_img);
@@ -138,7 +127,7 @@ public class PokedeckActivity extends AppCompatActivity {
             }
         });
 
-        pokemons = pokedeck.getPokemons(this);
+        ArrayList<Pokemon> pokemons = Pokedeck.getPokemons(this);
         currentPokemon = pokemons.get(0);
         refreshInfo(currentPokemon);
     }
@@ -153,7 +142,7 @@ public class PokedeckActivity extends AppCompatActivity {
     }
 
 
-    // Refresh info view with selected pokemon stats
+    // Refresh info view with selected pokemon stats.
     private void refreshInfo(Pokemon pokemon) {
         nickname.setText(currentPokemon.getNickname());
         pv.setText(currentPokemon.getPv().toString());
@@ -162,13 +151,12 @@ public class PokedeckActivity extends AppCompatActivity {
         attackSpe.setText(currentPokemon.getAttackSpe().toString());
         defense.setText(currentPokemon.getDefense().toString());
         defenseSpe.setText(currentPokemon.getDefenseSpe().toString());
-        imageService = new ImageService();
+        ImageService imageService = new ImageService();
 
         if (pokemon.getPokemonType() != null) {
-
             if (pokemon.getPokemonType().types.length > 0) {
                 TypeEnum typeE1 = pokemon.getPokemonType().types[0];
-                type1ImageId = imageService.getImageIdByName(typeE1.name());
+                int type1ImageId = imageService.getImageIdByName(typeE1.name());
                 type1.setImageResource(type1ImageId);
             } else {
                 type1.setImageResource(android.R.color.transparent);
@@ -176,7 +164,7 @@ public class PokedeckActivity extends AppCompatActivity {
 
             if (pokemon.getPokemonType().types.length > 1) {
                 TypeEnum typeE2 = pokemon.getPokemonType().types[1];
-                type2ImageId = imageService.getImageIdByName(typeE2.name());
+                int type2ImageId = imageService.getImageIdByName(typeE2.name());
                 type2.setImageResource(type2ImageId);
             } else {
                 type2.setImageResource(android.R.color.transparent);

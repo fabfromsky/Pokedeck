@@ -1,6 +1,5 @@
 package com.pokedeck.imie.pokedeck.service;
 
-
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -10,7 +9,12 @@ import android.util.Log;
 import com.pokedeck.imie.pokedeck.R;
 
 public class BackgroundMusicService extends Service {
+    private static BackgroundMusicService backgroundMusicServiceInstance;
     MediaPlayer player;
+
+    public static BackgroundMusicService getInstance() {
+        return BackgroundMusicService.backgroundMusicServiceInstance;
+    }
 
     public IBinder onBind(Intent arg0) {
         Log.i("BackgroundMusicService", "onBind() called !");
@@ -22,8 +26,10 @@ public class BackgroundMusicService extends Service {
         Log.i("BackgroundMusicService", "onCreate() called !");
         super.onCreate();
         player = MediaPlayer.create(this, R.raw.opening);
-        player.setLooping(true); // Set looping
+        player.setLooping(true);
         player.setVolume(100, 100);
+
+        backgroundMusicServiceInstance = this;
     }
 
     @Override
