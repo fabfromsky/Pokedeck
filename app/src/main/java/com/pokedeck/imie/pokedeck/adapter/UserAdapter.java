@@ -25,7 +25,6 @@ public class UserAdapter extends ArrayAdapter<User> {
         this.context = context;
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view;
@@ -39,14 +38,14 @@ public class UserAdapter extends ArrayAdapter<User> {
 
         User user = getItem(position);
 
-        // Current pokemon's reference is stored in the current view
+        // Current users's reference is stored in the current view
         view.setTag(user);
 
         TextView id = (TextView) view.findViewById(R.id.listitem_online_users_id);
         TextView username = (TextView) view.findViewById(R.id.listitem_online_users_username);
         TextView email = (TextView) view.findViewById(R.id.listitem_online_users_email);
 
-        id.setText("" + user.getId());
+        id.setText(String.format("%b", user.getId()));
         username.setText(user.getUsername());
         email.setText(user.getEmail());
 

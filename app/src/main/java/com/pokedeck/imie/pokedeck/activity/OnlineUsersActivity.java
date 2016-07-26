@@ -21,12 +21,15 @@ public class OnlineUsersActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // As it's the main activity it's here we start BackgroundMusicService.
+        // As it's the main activity it is where we start BackgroundMusicService.
         Intent svc = new Intent(this, BackgroundMusicService.class);
         startService(svc);
 
         // Check if user has already logged in.
         isLogged = loginCheck();
+
+        // TODO : Comment next line it's an authentication bypass
+        isLogged = true;
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_online_users);
