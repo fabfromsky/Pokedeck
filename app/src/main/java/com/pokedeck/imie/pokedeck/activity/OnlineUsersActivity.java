@@ -12,7 +12,11 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.pokedeck.imie.pokedeck.R;
+import com.pokedeck.imie.pokedeck.adapter.UserAdapter;
+import com.pokedeck.imie.pokedeck.entity.User;
 import com.pokedeck.imie.pokedeck.service.BackgroundMusicService;
+
+import java.util.ArrayList;
 
 public class OnlineUsersActivity extends AppCompatActivity {
 
@@ -38,7 +42,8 @@ public class OnlineUsersActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startViewFightActivity(id);
+                User selectedUser = (User) listView.getItemAtPosition(position);
+                startViewFightActivity(selectedUser.getEmail());
             }
         });
 
@@ -54,11 +59,16 @@ public class OnlineUsersActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        if (isLogged)
+        // On vérifie que l'utilisateur est connecté.
+        if (isLogged) {
             super.onResume();
-        else
+            ArrayList<User> users = User.getOnlineUsers(this);
+            UserAdapter userAdapter = new UserAdapter(this, users);
+            listView.setAdapter(userAdapter);
+        } else {
             loginCheck();
             super.onResume();
+        }
     }
 
     private void goToPokedeck() {
@@ -81,9 +91,9 @@ public class OnlineUsersActivity extends AppCompatActivity {
         }
     }
 
-    private void startViewFightActivity(long userId) {
+    private void startViewFightActivity(String userEmail) {
         Intent intent = new Intent(this, FightActivity.class);
-        intent.putExtra("userId", userId);
+        intent.putExtra("userEmail", userEmail);
         startActivity(intent);
     }
 }

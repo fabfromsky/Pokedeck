@@ -60,7 +60,7 @@ public class User {
         }
     }
 
-    public static ArrayList<User> getOnlineUsers(final Context context, final ListView listView) {
+    public static ArrayList<User> getOnlineUsers(final Context context) {
         final ArrayList<User> users = new ArrayList<>();
         String url = context.getResources().getString(R.string.baseURL) + "/api/user/online";
 
@@ -81,9 +81,6 @@ public class User {
                             }
 
                             Log.i("User", "L'API a renvoyé une réponse");
-
-                            UserAdapter userAdapter = new UserAdapter(context, users);
-                            listView.setAdapter(userAdapter);
                         } catch (Exception e) {
                             Log.e("User", "JSONException : " + e.getMessage());
                         }
@@ -98,6 +95,9 @@ public class User {
         );
 
         QueueController.getInstance().addToRequestQueue(request);
+
+        users.add(new User(0L, "Joueur non combattant", "peacefull@email.com", "Abcd1234", false, new Pokedeck(), new Pokemon(), new ArrayList<Pokemon>()));
+        users.add(new User(0L, "Joueur combattant", "hater@email.com", "Abcd1234", true, new Pokedeck(), new Pokemon(), new ArrayList<Pokemon>()));
 
         return users;
     }
